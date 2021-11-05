@@ -15,7 +15,7 @@ public class UserInARoom implements Serializable{
     final long serialVersionUID = 4L;
     private int id;
     private User user;
-    private Room room;
+    
 
     public UserInARoom() {
     }
@@ -32,13 +32,7 @@ public class UserInARoom implements Serializable{
         this.user = user;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
+    
     
     
 }

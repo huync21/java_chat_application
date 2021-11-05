@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,10 +74,11 @@ public class UserDAO extends DAO{
                 result.setFullName(rs.getString("fullName"));
                 result.setEmail(rs.getString("email"));
                 result.setPhoneNo(rs.getString("phoneNo"));
+                ps = con.prepareStatement("UPDATE tblUser SET onlineStatus = 1 WHERE id = ?");
+                 ps.setInt(1, result.getId());
+                ps.executeUpdate(); 
             }
-            ps = con.prepareStatement("UPDATE tblUser SET onlineStatus = 1 WHERE id = ?");
-            ps.setInt(1, result.getId());
-            ps.executeUpdate();
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -91,5 +93,26 @@ public class UserDAO extends DAO{
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    // Lấy tất cả danh sách user ra trừ user của máy khách để trả về
+    public ArrayList<User> getAllUsers(int exceptUser){
+        ArrayList<User> listUsers = new ArrayList<>();
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM tblUser WHERE id <> ?");
+            ps.setInt(1, exceptUser);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUserName(rs.getString("userName"));
+                user.setFullName(rs.getString("fullName"));
+                user.setOnlineStatus(rs.getInt("onlineStatus"));
+                listUsers.add(user);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listUsers;
     }
 }

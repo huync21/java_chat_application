@@ -26,7 +26,7 @@ public class SignUpFrm extends javax.swing.JFrame {
             String signUpResponseMessage = clientProcess.signUp(packUserFromTextFields());
             if(signUpResponseMessage.equals("Sign Up Successfully")){
                 JOptionPane.showMessageDialog(this, signUpResponseMessage);
-                new ChatFrm(clientProcess).setVisible(true);
+                new ChatHomeFrm(clientProcess).setVisible(true);
                 this.dispose();
             }else{
                 JOptionPane.showMessageDialog(this, signUpResponseMessage);

@@ -6,16 +6,26 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
  * @author LENOVO
  */
-class Room implements Serializable{
+public class Room implements Serializable{
     final long serialVersionUID = 1L;
     private int id;
     private String name;
+    private ArrayList<UserInARoom> listUserInARoom = new ArrayList<>();
 
+    public ArrayList<UserInARoom> getListUserInARoom() {
+        return listUserInARoom;
+    }
+
+    public void setListUserInARoom(ArrayList<UserInARoom> listUserInARoom) {
+        this.listUserInARoom = listUserInARoom;
+    }
+    
     public Room() {
     }
 
