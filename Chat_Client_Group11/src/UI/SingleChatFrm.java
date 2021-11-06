@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Model.Message;
 import Model.Room;
 import Model.User;
 import Model.UserInARoom;
@@ -22,34 +23,65 @@ public class SingleChatFrm extends javax.swing.JFrame {
      * Creates new form SingleChatFrm
      */
     private ClientProcess clientProcess;
+    String messagesOnTheScreen = "";
+
     public SingleChatFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
-        
+        clientProcess.sendOnlineStatus(1,clientProcess.getRoom().getId(),clientProcess.getUser().getId());
+
         // Lấy ra user còn lại trong phòng
         User currentUser = clientProcess.getUser();
         User theRestUserInTheRoom = new User();
         Room currentRoom = clientProcess.getRoom();
         ArrayList<UserInARoom> listUserInCurrentRoom = currentRoom.getListUserInARoom();
-        for(UserInARoom u : listUserInCurrentRoom){
-            if(u.getUser().getId() != currentUser.getId()){
+        for (UserInARoom u : listUserInCurrentRoom) {
+            if (u.getUser().getId() != currentUser.getId()) {
                 theRestUserInTheRoom = u.getUser();
             }
         }
-        
+
         // In ra tên user còn lại và trạng thái đăng nhập
-        labelTheRestUserName.setText(theRestUserInTheRoom.getUserName()+"("+theRestUserInTheRoom.getFullName()+")");
-        if(theRestUserInTheRoom.getOnlineStatus() == 1){
-             labelStatus.setText("online");
-             labelStatus.setForeground(Color.GREEN);
-        }else{
+        labelTheRestUserName.setText(theRestUserInTheRoom.getUserName() + "(" + theRestUserInTheRoom.getFullName() + ")");
+        if (theRestUserInTheRoom.getOnlineStatus() == 1) {
+            labelStatus.setText("online");
+            labelStatus.setForeground(Color.GREEN);
+        } else {
             labelStatus.setText("offline");
             labelStatus.setForeground(Color.red);
         }
-       
+
+        //Lúc mới mở màn hình chat của phòng này thì lấy ra danh sách các tin nhắn cũ trong phòng này từ database
+        ArrayList<Message> listMessagesInRoom = clientProcess.getMessagesFromDatabase(currentRoom);
+        clientProcess.setListMessagesInARoom(listMessagesInRoom);
+        for(Message m : clientProcess.getListMessagesInARoom()){
+            updateChatScreen(m);
+        }
         
-        
+        //lắng nghe để cập nhật trạng thái online/ offline của người dùng
+        clientProcess.setRoomFrame(this);
+        clientProcess.listenOnlineStatus();
     }
+
+    public void updateChatScreen(Message message) {
+        if (message.getTextContent() != null) {
+            messagesOnTheScreen+=(message.getUserInARoom().getUser().getUserName() + ": " + message.getTextContent()+"\n\n");
+            txtChatScreen.setText(messagesOnTheScreen);
+        }
+    }
+    
+    public void updateOnlineStatus(int onlineStatus){
+        if(onlineStatus == 1){
+            labelStatus.setText("online");
+            labelStatus.setForeground(Color.GREEN);
+        }
+        else if(onlineStatus == 0){
+            labelStatus.setText("offline");
+            labelStatus.setForeground(Color.red);
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,16 +93,21 @@ public class SingleChatFrm extends javax.swing.JFrame {
     private void initComponents() {
 
         labelTheRestUserName = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtChatScreen = new javax.swing.JTextArea();
         btnSend = new javax.swing.JButton();
         txtMessage = new javax.swing.JTextField();
         labelStatus = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtChatScreen = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         labelTheRestUserName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         labelTheRestUserName.setText("@Name Of The Rest User");
+
+        btnSend.setText("Send");
+
+        labelStatus.setText("status: online or offline");
 
         txtChatScreen.setEditable(false);
         txtChatScreen.setColumns(20);
@@ -78,30 +115,28 @@ public class SingleChatFrm extends javax.swing.JFrame {
         txtChatScreen.setText("user a: blabla bla\nuser b: blo blo blooo");
         jScrollPane1.setViewportView(txtChatScreen);
 
-        btnSend.setText("Send");
-
-        labelStatus.setText("status: online or offline");
+        jScrollPane2.setViewportView(jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSend))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(144, 144, 144)
                         .addComponent(labelTheRestUserName)
                         .addGap(44, 44, 44)
-                        .addComponent(labelStatus)))
-                .addContainerGap(54, Short.MAX_VALUE))
+                        .addComponent(labelStatus))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSend)))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,23 +145,23 @@ public class SingleChatFrm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTheRestUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelStatus))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSend)
                     .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSend;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelStatus;
     private javax.swing.JLabel labelTheRestUserName;
     private javax.swing.JTextArea txtChatScreen;

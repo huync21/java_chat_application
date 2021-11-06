@@ -30,6 +30,7 @@ public class SignInFrm extends javax.swing.JFrame {
         btnSignIn.addActionListener((e) -> {
             String responseMessage = clientProcess.signIn(packUserFromTextFields());
             if(responseMessage.equals("Sign In Successfully")){
+                
                 new ChatHomeFrm(clientProcess).setVisible(true);
                 this.dispose();
             }else{

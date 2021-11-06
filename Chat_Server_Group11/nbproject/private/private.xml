@@ -6,9 +6,11 @@
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/databaseAcess/UserDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/service/ServerProcess.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/Model/UserInARoom.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/databaseAcess/MessageDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/Main/Main.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/databaseAcess/RoomDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/service/ClientHandler.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/Model/Message.java</file>
         </group>
     </open-files>
 </project-private>

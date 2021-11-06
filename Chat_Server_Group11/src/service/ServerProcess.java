@@ -24,10 +24,12 @@ public class ServerProcess {
     }
 
     public void startServer() {
+        System.out.println("Server started at localhost:"+serverSocket.getLocalPort());
         try {
             while (true) {
                 Socket socket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(socket);
+                
                 Thread thread = new Thread(clientHandler);
                 thread.start();
             }

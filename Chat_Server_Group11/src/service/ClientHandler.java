@@ -5,8 +5,11 @@
  */
 package service;
 
+import Model.Message;
 import Model.Room;
 import Model.User;
+import Model.UserInARoom;
+import databaseAcess.MessageDAO;
 import databaseAcess.RoomDAO;
 import databaseAcess.UserDAO;
 import java.io.DataInputStream;
@@ -17,6 +20,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -59,6 +64,8 @@ class ClientHandler implements Runnable {
                         if (!userDAO.isExistedUser(userThatClientWantsToSignUp)) {
                             User responseUser = userDAO.signUp(userThatClientWantsToSignUp);
                             if (responseUser != null) {
+                                ServerProcess.listClientHandler.add(this);
+                                System.out.println("User " + responseUser.getUserName() + " has signed in");
                                 this.user = responseUser;  //gán user trả về cho property user của ClientHandler
                                 dos.writeUTF("Sign Up Successfully");
                                 dos.flush();
@@ -81,6 +88,8 @@ class ClientHandler implements Runnable {
                         User userThatContainsUserAndPassword = (User) ois.readObject();
                         User userToReturnToClient = new UserDAO().signIn(userThatContainsUserAndPassword);
                         if (userToReturnToClient != null) {
+                            ServerProcess.listClientHandler.add(this);
+                            System.out.println("User " + userToReturnToClient.getUserName() + " has sign in");
                             this.user = userToReturnToClient; //gán user trả về cho property user của ClientHandler
                             dos.writeUTF("Sign In Successfully");
                             dos.flush();
@@ -96,7 +105,7 @@ class ClientHandler implements Runnable {
                     case "get single chat rooms": // lấy ra tất cả các phòng chat đơn của 1 người dùng
                         int userId = dis.readInt();
                         ArrayList<Room> listSingleChatRooms = new RoomDAO().getSingleChatRooms(userId);
-                        for(Room room : listSingleChatRooms){
+                        for (Room room : listSingleChatRooms) {
                             oos.writeObject(room);
                         }
                         oos.writeObject(null);
@@ -105,23 +114,61 @@ class ClientHandler implements Runnable {
                     case "get all users": // lấy ra tất cả người dùng trừ người dùng yêu cầu
                         int exceptUser = dis.readInt();
                         ArrayList<User> allUsers = new UserDAO().getAllUsers(exceptUser);
-                        for(User user: allUsers){
+                        for (User user : allUsers) {
                             oos.writeObject(user);
                         }
                         oos.writeObject(null);
                         oos.flush();
                         break;
                     case "set current room": // khi user click vào 1 phòng trong máy khách thì set current room trên ClientHandler trong server là phòng đó luôn để tí nữa phục vụ gửi message
-                        Room cuRoom = (Room)ois.readObject();
+                        Room cuRoom = (Room) ois.readObject();
                         this.currentRoom = cuRoom;
+                        break;
+                    case "get messages from database": // lấy ra tất cả message trong 1 phòng
+                        Room roomToTakeMessagesFrom = (Room) ois.readObject();
+                        this.currentRoom = roomToTakeMessagesFrom;
+
+                        //gửi về list cho client:
+                        ArrayList<Message> listMessages = new MessageDAO().getListMessages(currentRoom);
+                        for (Message m : listMessages) {
+                            oos.writeObject(m);
+                        }
+                        oos.writeObject(null);
+                        oos.flush();
+                        break;
+                    case "send online status": // Cái này cho vui thôi, kiểu update cái trạng thái đăng nhập online offline của user còn lại ở trong phòng chat đơn
+                        int onlineStatus = dis.readInt();
+                        int roomId = dis.readInt();
+                        int userID = dis.readInt();
+                        System.out.println(roomId);
+                        // Check xem thanh niên nào chung phòng với mình
+                        for (ClientHandler c : ServerProcess.listClientHandler) {
+                            if (c.getCurrentRoom() != null) {
+                                if (c.getCurrentRoom().getId() == roomId && c.getUser().getId() != userID) {
+                                    c.getDos().writeInt(1);
+                                }
+                            }
+                        }
                         break;
                     default:
                         break;
 
                 }
             } catch (SocketException ex) {// Nếu socket bị đóng từ phía client thì sẽ nhảy vào đoạn code này
-                System.out.println("User: "+user.getUserName()+" has left!");
+                System.out.println("User: " + user.getUserName() + " has left!");
                 new UserDAO().setUserOffline(user); // Nếu vậy thì cập nhật tình trạng là offline cho user đó trong db 
+
+                // Cập nhật tình trạng offline trên UI của các máy khách đang bấm vào màn hình chat với user này
+                for (ClientHandler c : ServerProcess.listClientHandler) {
+                    if (c.getCurrentRoom().getId() == this.currentRoom.getId()) {
+                        try {
+                            c.getDos().writeInt(0);
+                        } catch (IOException ex1) {
+
+                        }
+                    }
+                }
+
                 closeEverything();//nếu socket bị đóng từ phía client thì remove cái clientHandler này và đóng các luồng đang mở bên phía clientHandler này
                 break;
             } catch (IOException ex) {
@@ -156,4 +203,61 @@ class ClientHandler implements Runnable {
         }
 
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public DataOutputStream getDos() {
+        return dos;
+    }
+
+    public void setDos(DataOutputStream dos) {
+        this.dos = dos;
+    }
+
+    public DataInputStream getDis() {
+        return dis;
+    }
+
+    public void setDis(DataInputStream dis) {
+        this.dis = dis;
+    }
+
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
+    public void setOos(ObjectOutputStream oos) {
+        this.oos = oos;
+    }
+
+    public ObjectInputStream getOis() {
+        return ois;
+    }
+
+    public void setOis(ObjectInputStream ois) {
+        this.ois = ois;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
 }
