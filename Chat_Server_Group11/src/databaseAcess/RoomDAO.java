@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import service.ClientHandler;
+import service.ServerProcess;
 
 /**
  *
@@ -23,7 +25,7 @@ public class RoomDAO extends DAO {
         ArrayList<Room> result = null;
         try {
             result = new ArrayList<>();
-            String getRoomsSQL = "SELECT tblroom.id as roomId, tblroom.name as roomName\n"
+            String getRoomsSQL = "SELECT DISTINCT tblroom.id as roomId, tblroom.name as roomName\n"
                     + "FROM tblRoom,tblUserInARoom,tbluser\n"
                     + "WHERE tblroom.id = tbluserinaroom.tblRoomId AND tbluserinaroom.tblUserId = tbluser.id AND tbluser.id = ?";
             PreparedStatement ps = con.prepareStatement(getRoomsSQL);
@@ -33,7 +35,7 @@ public class RoomDAO extends DAO {
                 Room room = new Room();
                 room.setId(rs.getInt(1));
                 room.setName(rs.getString(2));
-                String getUsersSQL = "SELECT tbluser.id, tbluser.userName, tbluser.fullName, tbluser.onlineStatus\n"
+                String getUsersSQL = "SELECT tbluser.id, tbluser.userName, tbluser.fullName, tbluser.onlineStatus,tblUserInARoom.id as tblUserInARoomId\n"
                         + "FROM tblRoom,tblUserInARoom,tbluser\n"
                         + "WHERE tblroom.id = tbluserinaroom.tblRoomId AND tbluserinaroom.tblUserId = tbluser.id AND tblroom.id = ?;";
                 ps = con.prepareStatement(getUsersSQL);
@@ -47,7 +49,18 @@ public class RoomDAO extends DAO {
                     user.setId(rs1.getInt(1));
                     user.setUserName(rs1.getString(2));
                     user.setFullName(rs1.getString(3));
-                    user.setOnlineStatus(rs1.getInt(4));
+//                    user.setOnlineStatus(rs1.getInt(4));
+
+                    int isOnline = 0;
+                    for (ClientHandler ch : ServerProcess.listClientHandler) {
+                        if (ch.getUser().getId() == user.getId()) {
+                            isOnline = 1;
+                            break;
+                        }
+                    }
+
+                    user.setOnlineStatus(isOnline);
+                    userInARoom.setId(rs1.getInt("tblUserInARoomId"));
                     userInARoom.setUser(user);
                     room.getListUserInARoom().add(userInARoom);
                 }

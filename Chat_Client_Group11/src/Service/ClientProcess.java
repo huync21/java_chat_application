@@ -217,7 +217,20 @@ public class ClientProcess {
         return result;
     }
 
-    public void sendMessage(Message message, Room room) {
+    public void sendMessage(Message message) {
+        try {
+            //header
+            dos.writeUTF("send message");
+            dos.flush();
+
+            //body
+            oos.writeObject(message);
+
+            oos.flush();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -225,12 +238,22 @@ public class ClientProcess {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                while (true) {
+                    try {
+                        Message m = (Message) ois.readObject();
+                        listMessagesInARoom.add(m);
+                        
+                        roomFrame.updateChatScreen(m);
+                        
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         }).start();
     }
 
-    public void sendOnlineStatus(int onlineStatus,int roomId, int userId) {
+    public void sendOnlineStatus(int onlineStatus, int roomId, int userId) {
         try {
             dos.writeUTF("send online status");
             dos.writeInt(onlineStatus);

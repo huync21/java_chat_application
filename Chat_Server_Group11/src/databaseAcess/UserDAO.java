@@ -6,6 +6,7 @@
 package databaseAcess;
 
 import Model.User;
+import com.sun.corba.se.spi.activation.Server;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.ClientHandler;
+import service.ServerProcess;
 
 /**
  *
@@ -107,7 +110,18 @@ public class UserDAO extends DAO{
                 user.setId(rs.getInt("id"));
                 user.setUserName(rs.getString("userName"));
                 user.setFullName(rs.getString("fullName"));
-                user.setOnlineStatus(rs.getInt("onlineStatus"));
+//                user.setOnlineStatus(rs.getInt("onlineStatus"));
+                
+                int userId = user.getId();
+                int isOnline = 0;
+                for(ClientHandler ch: ServerProcess.listClientHandler){
+                    if(ch.getUser().getId() == userId){
+                        isOnline = 1;
+                        break;
+                    }
+                }
+                
+                user.setOnlineStatus(isOnline);
                 listUsers.add(user);
             }
         } catch (SQLException ex) {

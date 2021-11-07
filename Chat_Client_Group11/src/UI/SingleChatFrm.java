@@ -11,7 +11,8 @@ import Model.User;
 import Model.UserInARoom;
 import Service.ClientProcess;
 import java.awt.Color;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  *
@@ -28,7 +29,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
     public SingleChatFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
-        clientProcess.sendOnlineStatus(1,clientProcess.getRoom().getId(),clientProcess.getUser().getId());
+        
 
         // Lấy ra user còn lại trong phòng
         User currentUser = clientProcess.getUser();
@@ -54,34 +55,67 @@ public class SingleChatFrm extends javax.swing.JFrame {
         //Lúc mới mở màn hình chat của phòng này thì lấy ra danh sách các tin nhắn cũ trong phòng này từ database
         ArrayList<Message> listMessagesInRoom = clientProcess.getMessagesFromDatabase(currentRoom);
         clientProcess.setListMessagesInARoom(listMessagesInRoom);
-        for(Message m : clientProcess.getListMessagesInARoom()){
+        for (Message m : clientProcess.getListMessagesInARoom()) {
             updateChatScreen(m);
         }
+//        clientProcess.sendOnlineStatus(1, clientProcess.getRoom().getId(), clientProcess.getUser().getId());
+//        lắng nghe để cập nhật trạng thái online/ offline trong phòng chat trên UI của người dùng
+//        clientProcess.listenOnlineStatus();
         
-        //lắng nghe để cập nhật trạng thái online/ offline của người dùng
+        // set room frame cho tiến trình client process để gọi hàm update ui ở bên client process mỗi khi có tin nhắn tới
         clientProcess.setRoomFrame(this);
-        clientProcess.listenOnlineStatus();
+          
+        // lắng nghe tin nhắn tới
+        
+        clientProcess.listenToMessage();
+        
+        // Gửi tin nhắn
+        btnSend.addActionListener((e) -> {
+            String input = txtMessage.getText();
+
+            Message message = new Message();
+            message.setTextContent(input);
+            message.setTime(new Date());
+
+            // lấy ra id của user in a room của user
+            UserInARoom userInARoom = new UserInARoom();
+            for (UserInARoom u : currentRoom.getListUserInARoom()) {
+                if (currentUser.getId() == u.getUser().getId()) {
+                    userInARoom = u;
+                    break;
+                }
+            }
+            userInARoom.setUser(currentUser);
+            message.setUserInARoom(userInARoom);
+
+            // gửi đi 
+            this.clientProcess.sendMessage(message);
+
+            // xóa đi text đã nhập trong input và hiện trong screen chat
+            txtMessage.setText("");
+            clientProcess.getListMessagesInARoom().add(message);
+            
+            
+        });
     }
 
     public void updateChatScreen(Message message) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (message.getTextContent() != null) {
-            messagesOnTheScreen+=(message.getUserInARoom().getUser().getUserName() + ": " + message.getTextContent()+"\n\n");
+            messagesOnTheScreen += (message.getUserInARoom().getUser().getUserName()+"("+sdf.format(message.getTime()) +")" + ": " + message.getTextContent() + "\n\n");
             txtChatScreen.setText(messagesOnTheScreen);
         }
     }
-    
-    public void updateOnlineStatus(int onlineStatus){
-        if(onlineStatus == 1){
+
+    public void updateOnlineStatus(int onlineStatus) {
+        if (onlineStatus == 1) {
             labelStatus.setText("online");
             labelStatus.setForeground(Color.GREEN);
-        }
-        else if(onlineStatus == 0){
+        } else if (onlineStatus == 0) {
             labelStatus.setText("offline");
             labelStatus.setForeground(Color.red);
         }
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

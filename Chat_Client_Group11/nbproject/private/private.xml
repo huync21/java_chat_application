@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/Model/Room.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/Service/ClientProcess.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/UI/SingleChatFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/UI/SingleChatRoomsFrm.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/UI/SignInFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/Model/UserInARoom.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/Main/Main.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/UI/SignUpFrm.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/UI/ChatHomeFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/Main/Main.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Client_Group11/src/UI/SearchUserForSingleChatFrm.java</file>
         </group>
     </open-files>

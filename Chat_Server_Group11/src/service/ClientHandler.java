@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * @author LENOVO
  */
 // Lớp này làm nhiệm vụ giao tiếp(nhận request, xử lý, thao tác với db và trả về dữ liệu) với một tiến trình ClientProcess bên máy khách
-class ClientHandler implements Runnable {
+public class ClientHandler implements Runnable {
 
     private Socket socket;
     private DataOutputStream dos;
@@ -89,6 +89,7 @@ class ClientHandler implements Runnable {
                         User userToReturnToClient = new UserDAO().signIn(userThatContainsUserAndPassword);
                         if (userToReturnToClient != null) {
                             ServerProcess.listClientHandler.add(this);
+                            
                             System.out.println("User " + userToReturnToClient.getUserName() + " has sign in");
                             this.user = userToReturnToClient; //gán user trả về cho property user của ClientHandler
                             dos.writeUTF("Sign In Successfully");
@@ -141,14 +142,35 @@ class ClientHandler implements Runnable {
                         int roomId = dis.readInt();
                         int userID = dis.readInt();
                         System.out.println(roomId);
-                        // Check xem thanh niên nào chung phòng với mình
+                        // Check xem thanh niên nào chung phòng với mình để gửi đi trạng thái online
                         for (ClientHandler c : ServerProcess.listClientHandler) {
                             if (c.getCurrentRoom() != null) {
-                                if (c.getCurrentRoom().getId() == roomId && c.getUser().getId() != userID) {
-                                    c.getDos().writeInt(1);
+                                synchronized (c) {
+                                    if (c.getCurrentRoom().getId() == roomId && c.getUser().getId() != userID) {
+                                        c.getDos().writeInt(1);
+                                    }
                                 }
                             }
                         }
+                        break;
+                    case "send message": // Gửi tin nhắn cho những người còn lại trong phòng chat và lưu tin nhắn vào database
+                        Message message = (Message) ois.readObject();
+                        
+                        System.out.println("message: "+message.getTextContent());
+                        for (ClientHandler c : ServerProcess.listClientHandler) { //Gửi cho những user khác trong phòng trên ứng dụng
+                            if (c.getCurrentRoom() != null) {
+                                synchronized (c) { // đồng bộ cái này tránh trường hợp có nhiều luồng tranh luồng gửi của c sẽ dẫn đến chữ bị loạn hết lên
+                                    if (c.getCurrentRoom().getId() == currentRoom.getId()) {
+                                        c.getOos().writeObject(message);
+                                        c.getOos().flush();
+                                    }
+                                }
+                            }
+                        }
+                        
+                        //Lưu message vào database
+                        new MessageDAO().saveMessage(message);
+                        
                         break;
                     default:
                         break;
@@ -162,7 +184,9 @@ class ClientHandler implements Runnable {
                 for (ClientHandler c : ServerProcess.listClientHandler) {
                     if (c.getCurrentRoom().getId() == this.currentRoom.getId()) {
                         try {
-                            c.getDos().writeInt(0);
+                            synchronized(c){
+                                c.getDos().writeInt(0);
+                            }
                         } catch (IOException ex1) {
 
                         }
