@@ -172,6 +172,18 @@ public class ClientHandler implements Runnable {
                         new MessageDAO().saveMessage(message);
                         
                         break;
+                    case "get group chat rooms": // lấy ra tất cả các phòng chat đơn của 1 người dùng
+                        int userid = dis.readInt();
+                        ArrayList<Room> listGroupChatRooms = new RoomDAO().getGroupChatRooms(userid);
+                        for (Room room : listGroupChatRooms) {
+                            oos.writeObject(room);
+                        }
+                        oos.writeObject(null);
+                        oos.flush();
+                        break;
+                    case "null object":
+                        oos.writeObject(null);
+                        break;
                     default:
                         break;
 

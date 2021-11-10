@@ -11,9 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 
 /**
  *
@@ -30,45 +27,9 @@ public class ClientProcess {
     private Room currentRoom;
     private ArrayList<Message> listMessagesInARoom;
     private SingleChatFrm roomFrame;
-
-    public SingleChatFrm getRoomFrame() {
-        return roomFrame;
-    }
-
-    public void setRoomFrame(SingleChatFrm roomFrame) {
-        this.roomFrame = roomFrame;
-    }
-
-    public ArrayList<Message> getListMessagesInARoom() {
-        return listMessagesInARoom;
-    }
-
-    public void setListMessagesInARoom(ArrayList<Message> listMessagesInARoom) {
-        this.listMessagesInARoom = listMessagesInARoom;
-    }
-
-    public Room getRoom() {
-        return currentRoom;
-    }
-
-    public void setRoom(Room room) {
-        this.currentRoom = room;
-        try {
-            // set current room trên ClientHandler trên server luôn
-            //header
-            dos.writeUTF("set current room");
-            dos.flush();
-            oos.writeObject(currentRoom);
-            oos.flush();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public User getUser() {
-        return user;
-    }
-
+    private Thread currentThread;
+    private boolean isStop ;
+    
     public ClientProcess(Socket socket) {
         try {
             this.socket = socket;
@@ -80,7 +41,14 @@ public class ClientProcess {
             ex.printStackTrace();
         }
     }
-
+    
+    
+    public void outRoom(){
+        isStop = true;
+    }
+    
+    
+    
     public String signUp(User user) {
         String headerResponse = "Sign Up Failed";
         try {
@@ -140,32 +108,6 @@ public class ClientProcess {
 
     }
 
-    public ArrayList<Room> getSingleChatRooms(int userId) {
-        ArrayList<Room> listRooms = new ArrayList<>();
-
-        try {
-            //header
-            dos.writeUTF("get single chat rooms");
-            dos.flush();
-
-            //body
-            dos.writeInt(userId);
-            dos.flush();
-
-            //get back result
-            Room r = new Room();
-            while ((r = (Room) ois.readObject()) != null) {
-                listRooms.add(r);
-            }
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-
-        return listRooms;
-    }
 
     public ArrayList<User> getAllUsers(int exceptThisUserId) {
         ArrayList<User> listUser = new ArrayList<>();
@@ -217,7 +159,37 @@ public class ClientProcess {
         return result;
     }
 
-    public void sendMessage(Message message) {
+    
+
+    
+    public ArrayList<Room> getSingleChatRooms(int userId) {
+        ArrayList<Room> listRooms = new ArrayList<>();
+
+        try {
+            //header
+            dos.writeUTF("get single chat rooms");
+            dos.flush();
+
+            //body
+            dos.writeInt(userId);
+            dos.flush();
+
+            //get back result
+            Room r = new Room();
+            while ((r = (Room) ois.readObject()) != null) {
+                listRooms.add(r);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        return listRooms;
+    }
+    
+    public void sendMessage(Message message) { // Gửi tin nhắn
         try {
             //header
             dos.writeUTF("send message");
@@ -233,25 +205,29 @@ public class ClientProcess {
         }
 
     }
-
-    public void listenToMessage() {
-        new Thread(new Runnable() {
+    
+    public void listenToMessage() {// Lắng nghe tin nhắn mới đến
+        
+        this.currentThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (!isStop) {
                     try {
                         Message m = (Message) ois.readObject();
                         listMessagesInARoom.add(m);
                         
+                        // Gọi UI phòng chat cập nhật màn hình chat có thêm message mới vừa nhận về
                         roomFrame.updateChatScreen(m);
-                        
                     } catch (Exception ex) {
                         ex.printStackTrace();
+                        break;
                     }
                 }
             }
-        }).start();
+        });
+        this.currentThread.start();
     }
+    
 
     public void sendOnlineStatus(int onlineStatus, int roomId, int userId) {
         try {
@@ -282,6 +258,47 @@ public class ClientProcess {
 
             }
         }).start();
+    }
+    
+    public ClientProcess() {
+    }
+
+    public SingleChatFrm getRoomFrame() {
+        return roomFrame;
+    }
+
+    public void setRoomFrame(SingleChatFrm roomFrame) {
+        this.roomFrame = roomFrame;
+    }
+
+    public ArrayList<Message> getListMessagesInARoom() {
+        return listMessagesInARoom;
+    }
+
+    public void setListMessagesInARoom(ArrayList<Message> listMessagesInARoom) {
+        this.listMessagesInARoom = listMessagesInARoom;
+    }
+
+    public Room getRoom() {
+        return currentRoom;
+    }
+
+    public void setRoom(Room room) {
+        this.currentRoom = room;
+        try {
+            // set current room trên ClientHandler trên server luôn
+            //header
+            dos.writeUTF("set current room");
+            dos.flush();
+            oos.writeObject(currentRoom);
+            oos.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void closeEverything() {

@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/databaseAcess/UserDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/service/ServerProcess.java</file>
-            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/databaseAcess/RoomDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/Main/Main.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/databaseAcess/MessageDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/databaseAcess/RoomDAO.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/Chat_Server_Group11/src/service/ClientHandler.java</file>
         </group>
     </open-files>

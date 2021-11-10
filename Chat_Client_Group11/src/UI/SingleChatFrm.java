@@ -30,7 +30,12 @@ public class SingleChatFrm extends javax.swing.JFrame {
         initComponents();
         this.clientProcess = clientProcess;
         
-
+        btnBack.addActionListener((e) -> {
+            clientProcess.outRoom();// ngừng cái thread đang lắng nghe lại khi quay về màn hình khác
+            new SingleChatRoomsFrm(clientProcess).setVisible(true);
+            this.dispose();
+        });
+        
         // Lấy ra user còn lại trong phòng
         User currentUser = clientProcess.getUser();
         User theRestUserInTheRoom = new User();
@@ -58,6 +63,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
         for (Message m : clientProcess.getListMessagesInARoom()) {
             updateChatScreen(m);
         }
+        
 //        clientProcess.sendOnlineStatus(1, clientProcess.getRoom().getId(), clientProcess.getUser().getId());
 //        lắng nghe để cập nhật trạng thái online/ offline trong phòng chat trên UI của người dùng
 //        clientProcess.listenOnlineStatus();
@@ -97,12 +103,14 @@ public class SingleChatFrm extends javax.swing.JFrame {
             
             
         });
+        
+        
     }
 
     public void updateChatScreen(Message message) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (message.getTextContent() != null) {
-            messagesOnTheScreen += (message.getUserInARoom().getUser().getUserName()+"("+sdf.format(message.getTime()) +")" + ": " + message.getTextContent() + "\n\n");
+            messagesOnTheScreen += (message.getUserInARoom().getUser().getUserName()+" ("+sdf.format(message.getTime()) +")" + ":\n" + message.getTextContent() + "\n\n");
             txtChatScreen.setText(messagesOnTheScreen);
         }
     }
@@ -133,6 +141,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtChatScreen = new javax.swing.JTextArea();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,10 +155,11 @@ public class SingleChatFrm extends javax.swing.JFrame {
         txtChatScreen.setEditable(false);
         txtChatScreen.setColumns(20);
         txtChatScreen.setRows(5);
-        txtChatScreen.setText("user a: blabla bla\nuser b: blo blo blooo");
         jScrollPane1.setViewportView(txtChatScreen);
 
         jScrollPane2.setViewportView(jScrollPane1);
+
+        btnBack.setText("<---");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +171,9 @@ public class SingleChatFrm extends javax.swing.JFrame {
                         .addGap(47, 47, 47)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(144, 144, 144)
+                        .addGap(25, 25, 25)
+                        .addComponent(btnBack)
+                        .addGap(40, 40, 40)
                         .addComponent(labelTheRestUserName)
                         .addGap(44, 44, 44)
                         .addComponent(labelStatus))
@@ -175,10 +187,15 @@ public class SingleChatFrm extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelTheRestUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelStatus))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelTheRestUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelStatus)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btnBack)))
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
@@ -193,6 +210,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSend;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

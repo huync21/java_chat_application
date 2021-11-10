@@ -30,7 +30,8 @@ public class MessageDAO extends DAO {
         try {
             String sql = "SELECT tblmessage.id as messageId, tblmessage.textContent, tblmessage.time, tbluserinaroom.id as userInARoomId, tbluser.id as userID, tbluser.userName as userName\n"
                     + "FROM tblmessage, tbluserinaroom,tbluser,tblroom\n"
-                    + "WHERE tblmessage.tbluserinaroomid = tbluserinaroom.id AND tbluserinaroom.tbluserid = tbluser.id AND tbluserinaroom.tblroomid = tblroom.id AND tblroom.id = ?";
+                    + "WHERE tblmessage.tbluserinaroomid = tbluserinaroom.id AND tbluserinaroom.tbluserid = tbluser.id AND tbluserinaroom.tblroomid = tblroom.id AND tblroom.id = ?\n"
+                    + "ORDER BY time ASC";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, room.getId());
             ResultSet rs = ps.executeQuery();
@@ -49,10 +50,10 @@ public class MessageDAO extends DAO {
                 User user = new User();
                 user.setId(rs.getInt("userID"));
                 user.setUserName(rs.getString("userName"));
-                
+
                 userInARoom.setUser(user);
                 message.setUserInARoom(userInARoom);
-                
+
                 result.add(message);
             }
         } catch (SQLException ex) {
