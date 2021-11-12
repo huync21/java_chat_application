@@ -19,7 +19,8 @@ public class UserInARoom implements Serializable{
 
     public UserInARoom() {
     }
-
+    
+    
     public int getId() {
         return id;
     }

@@ -5,6 +5,17 @@
  */
 package UI.groupChat;
 
+import Model.Room;
+import Model.User;
+import Model.UserInARoom;
+import Service.ClientProcess;
+import UI.SingleChatFrm;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author LENOVO
@@ -14,8 +25,38 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
     /**
      * Creates new form GroupChatRoomsFrm
      */
-    public GroupChatRoomsFrm() {
+    private JFrame mainFrame = this;
+    private ArrayList<Room> listGroupChatRooms;
+    private ClientProcess clientProcess;
+    public GroupChatRoomsFrm(ClientProcess clientProcess) {
         initComponents();
+        this.clientProcess = clientProcess;
+        int userId = clientProcess.getUser().getId();
+        listGroupChatRooms = clientProcess.getGroupChatRooms(userId);
+        
+        
+        String[][] data = new String[listGroupChatRooms.size()][2];
+        String[] columnNames = {"RoomId","RoomName"};
+        for(int i=0;i<listGroupChatRooms.size();i++){
+            Room room = listGroupChatRooms.get(i);
+            data[i][0] = room.getId()+"";
+            
+//            // lay ra ten cua user con lai trong phong
+//            User currenUser = clientProcess.getUser();
+//            User theRestUserInTheRoom = new User();
+//            ArrayList<UserInARoom> listUsersInSingleChatRoom = room.getListUserInARoom();
+//            for(UserInARoom u : listUsersInSingleChatRoom){
+//                if(u.getUser().getId() != currenUser.getId()) theRestUserInTheRoom = u.getUser();
+//            }
+            data[i][1] = listGroupChatRooms.get(i).getName();
+//            data[i][2] = theRestUserInTheRoom.getFullName();
+//            data[i][3] = theRestUserInTheRoom.getOnlineStatus()+"";
+        }
+        DefaultTableModel dtm = new DefaultTableModel(data, columnNames);
+        tblGroupChat.setModel(dtm);
+    }
+
+    private GroupChatRoomsFrm() {
     }
 
     /**
@@ -30,7 +71,8 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
         labelTheRestUserName = new javax.swing.JLabel();
         btnTaoPhongMoi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblGroupRooms = new javax.swing.JTable();
+        tblGroupChat = new javax.swing.JTable();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,8 +80,13 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
         labelTheRestUserName.setText("Group chat gan day:");
 
         btnTaoPhongMoi.setText("Tao phong moi");
+        btnTaoPhongMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoPhongMoiActionPerformed(evt);
+            }
+        });
 
-        tblGroupRooms.setModel(new javax.swing.table.DefaultTableModel(
+        tblGroupChat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1", "Lap Trinh Mang nhom 11"},
                 {"2", "Lap Trinh Web"},
@@ -49,7 +96,14 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
                 "id", "name"
             }
         ));
-        jScrollPane1.setViewportView(tblGroupRooms);
+        tblGroupChat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblGroupChatMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblGroupChat);
+
+        btnBack.setText("Back");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -57,16 +111,16 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(70, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(154, 154, 154))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addComponent(labelTheRestUserName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTaoPhongMoi)
-                        .addGap(34, 34, 34))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(154, 154, 154))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addComponent(labelTheRestUserName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnTaoPhongMoi)
+                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -74,7 +128,8 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnTaoPhongMoi)
-                    .addComponent(labelTheRestUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelTheRestUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBack))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66))
@@ -82,6 +137,27 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblGroupChatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGroupChatMouseClicked
+        // TODO add your handling code here:
+         int column = tblGroupChat.getColumnModel().
+                        getColumnIndexAtX(evt.getX()); // 
+                int row = evt.getY()/tblGroupChat.getRowHeight(); 
+ 
+                if (row < tblGroupChat.getRowCount() && row >= 0 && 
+                            column < tblGroupChat.getColumnCount() && column >= 0) {
+                   Room room = listGroupChatRooms.get(row);
+                   System.out.println("room" + room.getListUserInARoom().get(0).getUser().getFullName());
+                   clientProcess.setRoom(room);
+                   new GroupChatFrm(clientProcess).setVisible(true);
+                   mainFrame.dispose();
+                }
+    }//GEN-LAST:event_tblGroupChatMouseClicked
+
+    private void btnTaoPhongMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhongMoiActionPerformed
+        // TODO add your handling code here:
+        new CreateNewGroupFrm(clientProcess).setVisible(true);
+    }//GEN-LAST:event_btnTaoPhongMoiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -119,9 +195,10 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnTaoPhongMoi;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelTheRestUserName;
-    private javax.swing.JTable tblGroupRooms;
+    private javax.swing.JTable tblGroupChat;
     // End of variables declaration//GEN-END:variables
 }

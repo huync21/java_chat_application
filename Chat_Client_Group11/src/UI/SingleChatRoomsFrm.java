@@ -115,6 +115,11 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblRooms.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRoomsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblRooms);
 
         jScrollPane2.setViewportView(jScrollPane1);
@@ -150,6 +155,10 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblRoomsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRoomsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblRoomsMouseClicked
 
     
 

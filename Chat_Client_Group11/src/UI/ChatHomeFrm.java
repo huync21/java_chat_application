@@ -6,6 +6,9 @@
 package UI;
 
 import Service.ClientProcess;
+import UI.groupChat.GroupChatFrm;
+import UI.groupChat.GroupChatRoomsFrm;
+import javax.swing.JFrame;
 
 /**
  *
@@ -48,6 +51,11 @@ public class ChatHomeFrm extends javax.swing.JFrame {
         btnSingleChat.setText("Single Chat");
 
         btnGroupChat.setText("Group Chat");
+        btnGroupChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGroupChatActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Chat Home");
@@ -89,6 +97,12 @@ public class ChatHomeFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGroupChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGroupChatActionPerformed
+        // TODO add your handling code here:
+       new GroupChatRoomsFrm(clientProcess).setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_btnGroupChatActionPerformed
 
     
 

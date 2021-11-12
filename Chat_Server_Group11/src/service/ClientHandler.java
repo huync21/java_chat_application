@@ -56,6 +56,7 @@ public class ClientHandler implements Runnable {
             try {
                 String header = dis.readUTF();
                 // Check xem header mà ClientProcess gửi là chức năng gì để còn xử lý trả về dữ liệu cho phù hợp
+                System.out.println(header);
                 switch (header) {
                     case "sign up":
                         User userThatClientWantsToSignUp = (User) ois.readObject();
@@ -107,6 +108,16 @@ public class ClientHandler implements Runnable {
                         int userId = dis.readInt();
                         ArrayList<Room> listSingleChatRooms = new RoomDAO().getSingleChatRooms(userId);
                         for (Room room : listSingleChatRooms) {
+                            oos.writeObject(room);
+                        }
+                        oos.writeObject(null);
+                        oos.flush();
+                        break;
+                    case "get group chat rooms": // lấy ra tất cả các phòng chat đơn của 1 người dùng
+                        int userIdk = dis.readInt();
+                        System.out.println("userIdk: " + userIdk);
+                        ArrayList<Room> listGroupChatRooms = new RoomDAO().getGroupChatRooms(userIdk);
+                        for (Room room : listGroupChatRooms) {
                             oos.writeObject(room);
                         }
                         oos.writeObject(null);
@@ -170,17 +181,10 @@ public class ClientHandler implements Runnable {
                         
                         //Lưu message vào database
                         new MessageDAO().saveMessage(message);
-                        
                         break;
-                    case "get group chat rooms": // lấy ra tất cả các phòng chat đơn của 1 người dùng
-                        int userid = dis.readInt();
-                        ArrayList<Room> listGroupChatRooms = new RoomDAO().getGroupChatRooms(userid);
-                        for (Room room : listGroupChatRooms) {
-                            oos.writeObject(room);
-                        }
-                        oos.writeObject(null);
-                        oos.flush();
-                        break;
+                    case "creat room":
+                        Room room = (Room) ois.readObject();
+                        oos.writeObject(new RoomDAO().createRoom(room));
                     case "null object":
                         oos.writeObject(null);
                         break;

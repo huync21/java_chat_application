@@ -4,6 +4,7 @@ import Model.Message;
 import Model.User;
 import Model.Room;
 import UI.SingleChatFrm;
+import UI.groupChat.GroupChatFrm;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class ClientProcess {
     private Room currentRoom;
     private ArrayList<Message> listMessagesInARoom;
     private SingleChatFrm roomFrame;
+    private GroupChatFrm groupRoomFrame;
     private Thread currentThread;
     private boolean isStop ;
     
@@ -189,6 +191,55 @@ public class ClientProcess {
         return listRooms;
     }
     
+    public Room creatRoom(Room room) throws ClassNotFoundException {
+        ArrayList<Room> listRooms = new ArrayList<>();
+        Room result = null;
+        try {
+            //header
+            dos.writeUTF("creat room");
+            dos.flush();
+                
+           
+            //body
+            oos.writeObject(room);
+            dos.flush();
+
+            //get back result
+            result = (Room) ois.readObject();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+    
+    public ArrayList<Room> getGroupChatRooms(int userId) {
+        ArrayList<Room> listRooms = new ArrayList<>();
+
+        try {
+            //header
+            dos.writeUTF("get group chat rooms");
+            dos.flush();
+
+            //body
+            dos.writeInt(userId);
+            dos.flush();
+
+            //get back result
+            Room r = new Room();
+            while ((r = (Room) ois.readObject()) != null) {
+                listRooms.add(r);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        return listRooms;
+    }
+    
     public void sendMessage(Message message) { // Gửi tin nhắn
         try {
             //header
@@ -217,7 +268,10 @@ public class ClientProcess {
                         listMessagesInARoom.add(m);
                         
                         // Gọi UI phòng chat cập nhật màn hình chat có thêm message mới vừa nhận về
-                        roomFrame.updateChatScreen(m);
+                        if(roomFrame != null) roomFrame.updateChatScreen(m);
+                        else{
+                            groupRoomFrame.updateChatScreen(m);
+                        }
                     } catch (Exception ex) {
                         ex.printStackTrace();
                         break;
@@ -269,6 +323,10 @@ public class ClientProcess {
 
     public void setRoomFrame(SingleChatFrm roomFrame) {
         this.roomFrame = roomFrame;
+    }
+    
+    public void setgroupRoomFrame(GroupChatFrm roomFrame) {
+        this.groupRoomFrame = roomFrame;
     }
 
     public ArrayList<Message> getListMessagesInARoom() {
