@@ -6,7 +6,7 @@
 package UI;
 
 import Model.User;
-import Service.ClientProcess;
+import service.ClientProcess;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,15 +22,9 @@ public class SignUpFrm extends javax.swing.JFrame {
     public SignUpFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
+        clientProcess.setCurrentFrame(this);
         btnSignUp.addActionListener((e) -> {
-            String signUpResponseMessage = clientProcess.signUp(packUserFromTextFields());
-            if(signUpResponseMessage.equals("Sign Up Successfully")){
-                JOptionPane.showMessageDialog(this, signUpResponseMessage);
-                new ChatHomeFrm(clientProcess).setVisible(true);
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(this, signUpResponseMessage);
-            }
+            clientProcess.signUp(packUserFromTextFields());
         });
         
         btnSignIn.addActionListener((e) -> {
@@ -154,7 +148,15 @@ public class SignUpFrm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    public void goToChatHomeFrm() {
+        ChatHomeFrm chatHomeFrm = new ChatHomeFrm(clientProcess);
+        chatHomeFrm.setVisible(true);
+        this.dispose();
+    }
+
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSignIn;

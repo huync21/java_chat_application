@@ -54,159 +54,169 @@ public class ClientHandler implements Runnable {
     public void run() {
         while (true) {
             try {
-                String header = dis.readUTF();
+                DataPackage dataPackage = (DataPackage) ois.readObject();
+                int operation = dataPackage.getOperation();
+                DataPackage responsePackage = new DataPackage();
                 // Check xem header mà ClientProcess gửi là chức năng gì để còn xử lý trả về dữ liệu cho phù hợp
-                System.out.println(header);
-                switch (header) {
-                    case "sign up":
-                        User userThatClientWantsToSignUp = (User) ois.readObject();
+                switch (operation) {
+                    case DataPackage.SIGNUP:
+                        responsePackage.setOperation(DataPackage.SIGNUP);
+
+                        User userThatClientWantsToSignUp = (User) dataPackage.getData();
                         UserDAO userDAO = new UserDAO();
                         // Nếu không bị trùng tên đăng nhập thì đăng ký user đó(thêm user vào db) và trả về cho client
                         if (!userDAO.isExistedUser(userThatClientWantsToSignUp)) {
                             User responseUser = userDAO.signUp(userThatClientWantsToSignUp);
+
                             if (responseUser != null) {
                                 ServerProcess.listClientHandler.add(this);
                                 System.out.println("User " + responseUser.getUserName() + " has signed in");
                                 this.user = responseUser;  //gán user trả về cho property user của ClientHandler
-                                dos.writeUTF("Sign Up Successfully");
-                                dos.flush();
-                                oos.writeObject(responseUser);
-                                oos.flush();
+
+                                responsePackage.setData(responseUser);
+                                responsePackage.setStatusMessage("OK");
                             } else {
-                                dos.writeUTF("Some thing wrong with database access");
-                                dos.flush();
-                                oos.writeObject(null);
-                                oos.flush();
+                                responsePackage.setData(new User());
+                                responsePackage.setStatusMessage("Some thing wrong with database access");
                             }
                         } else {// Nếu bị trùng thì gửi lại message và 1 object user với giá trị null
-                            dos.writeUTF("This account name has already existed, please try another");
-                            dos.flush();
-                            oos.writeObject(null);
-                            oos.flush();
+                            responsePackage.setData(new User());
+                            responsePackage.setStatusMessage("This user name has already signed up, please choose another user name");
                         }
+                        oos.writeObject(responsePackage);
+                        oos.flush();
                         break;
-                    case "sign in":
-                        User userThatContainsUserAndPassword = (User) ois.readObject();
+                    case DataPackage.LOGIN:
+                        responsePackage.setOperation(DataPackage.LOGIN);
+                        User userThatContainsUserAndPassword = (User) dataPackage.getData();
                         User userToReturnToClient = new UserDAO().signIn(userThatContainsUserAndPassword);
                         if (userToReturnToClient != null) {
                             ServerProcess.listClientHandler.add(this);
-                            
+
                             System.out.println("User " + userToReturnToClient.getUserName() + " has sign in");
                             this.user = userToReturnToClient; //gán user trả về cho property user của ClientHandler
-                            dos.writeUTF("Sign In Successfully");
-                            dos.flush();
-                            oos.writeObject(userToReturnToClient);
-                            oos.flush();
+                            responsePackage.setData(userToReturnToClient);
+                            responsePackage.setStatusMessage("OK");
                         } else {
-                            dos.writeUTF("Wrong user name or password");
-                            dos.flush();
-                            oos.writeObject(null);
-                            oos.flush();
+                            responsePackage.setData(new User());
+                            responsePackage.setStatusMessage("Nhap sai ten dang nhap hoacj mat khau");
                         }
-                        break;
-                    case "get single chat rooms": // lấy ra tất cả các phòng chat đơn của 1 người dùng
-                        int userId = dis.readInt();
-                        ArrayList<Room> listSingleChatRooms = new RoomDAO().getSingleChatRooms(userId);
-                        for (Room room : listSingleChatRooms) {
-                            oos.writeObject(room);
-                        }
-                        oos.writeObject(null);
+                        oos.writeObject(responsePackage);
                         oos.flush();
                         break;
-                    case "get group chat rooms": // lấy ra tất cả các phòng chat đơn của 1 người dùng
-                        int userIdk = dis.readInt();
-                        System.out.println("userIdk: " + userIdk);
-                        ArrayList<Room> listGroupChatRooms = new RoomDAO().getGroupChatRooms(userIdk);
-                        for (Room room : listGroupChatRooms) {
-                            oos.writeObject(room);
-                        }
-                        oos.writeObject(null);
+                    case DataPackage.GET_SINGLE_CHAT_ROOMS: // lấy ra tất cả các phòng chat đơn của 1 người dùng
+                        responsePackage.setOperation(DataPackage.GET_SINGLE_CHAT_ROOMS);
+                        int userID = (Integer) dataPackage.getData();
+                        ArrayList<Room> listSingleChatRooms = new RoomDAO().getSingleChatRooms(userID);
+                        responsePackage.setData(listSingleChatRooms);
+                        responsePackage.setStatusMessage("OK");
+                        oos.writeObject(responsePackage);
                         oos.flush();
                         break;
-                    case "get all users": // lấy ra tất cả người dùng trừ người dùng yêu cầu
-                        int exceptUser = dis.readInt();
-                        ArrayList<User> allUsers = new UserDAO().getAllUsers(exceptUser);
-                        for (User user : allUsers) {
-                            oos.writeObject(user);
-                        }
-                        oos.writeObject(null);
-                        oos.flush();
-                        break;
-                    case "set current room": // khi user click vào 1 phòng trong máy khách thì set current room trên ClientHandler trong server là phòng đó luôn để tí nữa phục vụ gửi message
-                        Room cuRoom = (Room) ois.readObject();
+//                    case "get all users": // lấy ra tất cả người dùng trừ người dùng yêu cầu
+//                        int exceptUser = dis.readInt();
+//                        ArrayList<User> allUsers = new UserDAO().getAllUsers(exceptUser);
+//                        for (User user : allUsers) {
+//                            oos.writeObject(user);
+//                        }
+//                        oos.writeObject(null);
+//                        oos.flush();
+//                        break;
+                    case DataPackage.SET_CURRENT_ROOM: // khi user click vào 1 phòng trong máy khách thì set current room trên ClientHandler trong server là phòng đó luôn để tí nữa phục vụ gửi message
+                        Room cuRoom = (Room) dataPackage.getData();
                         this.currentRoom = cuRoom;
                         break;
-                    case "get messages from database": // lấy ra tất cả message trong 1 phòng
-                        Room roomToTakeMessagesFrom = (Room) ois.readObject();
+                    case DataPackage.GET_MESSAGES_FROM_DB: // lấy ra tất cả message trong 1 phòng
+                        responsePackage.setOperation(DataPackage.GET_MESSAGES_FROM_DB);
+                        Room roomToTakeMessagesFrom = (Room) dataPackage.getData();
                         this.currentRoom = roomToTakeMessagesFrom;
 
-                        //gửi về list cho client:
                         ArrayList<Message> listMessages = new MessageDAO().getListMessages(currentRoom);
-                        for (Message m : listMessages) {
-                            oos.writeObject(m);
-                        }
-                        oos.writeObject(null);
+                        responsePackage.setData(listMessages);
+                        responsePackage.setStatusMessage("OK");
+                        oos.writeObject(responsePackage);
                         oos.flush();
                         break;
-                    case "send online status": // Cái này cho vui thôi, kiểu update cái trạng thái đăng nhập online offline của user còn lại ở trong phòng chat đơn
-                        int onlineStatus = dis.readInt();
-                        int roomId = dis.readInt();
-                        int userID = dis.readInt();
-                        System.out.println(roomId);
-                        // Check xem thanh niên nào chung phòng với mình để gửi đi trạng thái online
-                        for (ClientHandler c : ServerProcess.listClientHandler) {
-                            if (c.getCurrentRoom() != null) {
-                                synchronized (c) {
-                                    if (c.getCurrentRoom().getId() == roomId && c.getUser().getId() != userID) {
-                                        c.getDos().writeInt(1);
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case "send message": // Gửi tin nhắn cho những người còn lại trong phòng chat và lưu tin nhắn vào database
-                        Message message = (Message) ois.readObject();
-                        
-                        System.out.println("message: "+message.getTextContent());
+//                    case "send online status": // Cái này cho vui thôi, kiểu update cái trạng thái đăng nhập online offline của user còn lại ở trong phòng chat đơn
+//                        int onlineStatus = dis.readInt();
+//                        int roomId = dis.readInt();
+//                        int userID = dis.readInt();
+//                        System.out.println(roomId);
+//                        // Check xem thanh niên nào chung phòng với mình để gửi đi trạng thái online
+//                        for (ClientHandler c : ServerProcess.listClientHandler) {
+//                            if (c.getCurrentRoom() != null) {
+//                                synchronized (c) {
+//                                    if (c.getCurrentRoom().getId() == roomId && c.getUser().getId() != userID) {
+//                                        c.getDos().writeInt(1);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        break;
+                    case DataPackage.SEND_MESSAGE: // Gửi tin nhắn cho những người còn lại trong phòng chat và lưu tin nhắn vào database
+                        Message message = (Message) dataPackage.getData();
+                        responsePackage.setOperation(DataPackage.RECEIVE_MESSAGE);
+                        responsePackage.setData(message);
+                        responsePackage.setStatusMessage("OK");
                         for (ClientHandler c : ServerProcess.listClientHandler) { //Gửi cho những user khác trong phòng trên ứng dụng
                             if (c.getCurrentRoom() != null) {
                                 synchronized (c) { // đồng bộ cái này tránh trường hợp có nhiều luồng tranh luồng gửi của c sẽ dẫn đến chữ bị loạn hết lên
-                                    if (c.getCurrentRoom().getId() == currentRoom.getId()) {
-                                        c.getOos().writeObject(message);
+                                    if (c.getCurrentRoom().getId() == currentRoom.getId()) { // dùng các luồng client handler tương ứng để gửi cho những người còn lại trong phòng
+                                        c.getOos().writeObject(responsePackage);
                                         c.getOos().flush();
                                     }
                                 }
                             }
                         }
-                        
+
                         //Lưu message vào database
                         new MessageDAO().saveMessage(message);
+
                         break;
-                    case "creat room":
-                        Room room = (Room) ois.readObject();
-                        oos.writeObject(new RoomDAO().createRoom(room));
-                    case "null object":
-                        oos.writeObject(null);
+//                    case "get group chat rooms": // lấy ra tất cả các phòng chat đơn của 1 người dùng
+//                        int userid = dis.readInt();
+//                        ArrayList<Room> listGroupChatRooms = new RoomDAO().getGroupChatRooms(userid);
+//                        for (Room room : listGroupChatRooms) {
+//                            oos.writeObject(room);
+//                        }
+//                        oos.writeObject(null);
+//                        oos.flush();
+//                        break;
+//                    case "null object":
+//                        oos.writeObject(null);
+//                        break;
+                    case DataPackage.SEND_ONLINE_STATUS_BROADCAST:
+                        User onlineUser = (User) dataPackage.getData();
+                        this.user = onlineUser;
+                        responsePackage = new DataPackage(DataPackage.RECEIVE_ONLINE_STATUS_BROADCAST, onlineUser);
+                        responsePackage.setStatusMessage("ONLINE");
+                        for (ClientHandler ch : ServerProcess.listClientHandler) {
+                            synchronized (ch) {
+                                ch.getOos().writeObject(responsePackage);
+                            }
+                        }
                         break;
                     default:
                         break;
-
+//
                 }
+
             } catch (SocketException ex) {// Nếu socket bị đóng từ phía client thì sẽ nhảy vào đoạn code này
                 System.out.println("User: " + user.getUserName() + " has left!");
                 new UserDAO().setUserOffline(user); // Nếu vậy thì cập nhật tình trạng là offline cho user đó trong db 
 
                 // Cập nhật tình trạng offline trên UI của các máy khách đang bấm vào màn hình chat với user này
                 for (ClientHandler c : ServerProcess.listClientHandler) {
-                    if (c.getCurrentRoom().getId() == this.currentRoom.getId()) {
+                    DataPackage responsePackage = new DataPackage(DataPackage.RECEIVE_ONLINE_STATUS_BROADCAST, this.user);
+                    responsePackage.setStatusMessage("OFFLINE");
+                    synchronized (c) {
                         try {
-                            synchronized(c){
-                                c.getDos().writeInt(0);
-                            }
+                            c.getOos().writeObject(responsePackage);
                         } catch (IOException ex1) {
-
+                            ex.printStackTrace();
                         }
                     }
+
                 }
 
                 closeEverything();//nếu socket bị đóng từ phía client thì remove cái clientHandler này và đóng các luồng đang mở bên phía clientHandler này

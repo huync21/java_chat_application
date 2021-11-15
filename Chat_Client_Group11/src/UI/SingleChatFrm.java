@@ -9,7 +9,7 @@ import Model.Message;
 import Model.Room;
 import Model.User;
 import Model.UserInARoom;
-import Service.ClientProcess;
+import service.ClientProcess;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,20 +25,21 @@ public class SingleChatFrm extends javax.swing.JFrame {
      */
     private ClientProcess clientProcess;
     String messagesOnTheScreen = "";
+    private User theRestUserInTheRoom;
 
     public SingleChatFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
-        
+        clientProcess.setCurrentFrame(this);
+
         btnBack.addActionListener((e) -> {
-            clientProcess.outRoom();// ngừng cái thread đang lắng nghe lại khi quay về màn hình khác
             new SingleChatRoomsFrm(clientProcess).setVisible(true);
             this.dispose();
         });
-        
+
         // Lấy ra user còn lại trong phòng
         User currentUser = clientProcess.getUser();
-        User theRestUserInTheRoom = new User();
+        theRestUserInTheRoom = new User();
         Room currentRoom = clientProcess.getRoom();
         ArrayList<UserInARoom> listUserInCurrentRoom = currentRoom.getListUserInARoom();
         for (UserInARoom u : listUserInCurrentRoom) {
@@ -57,24 +58,15 @@ public class SingleChatFrm extends javax.swing.JFrame {
             labelStatus.setForeground(Color.red);
         }
 
-        //Lúc mới mở màn hình chat của phòng này thì lấy ra danh sách các tin nhắn cũ trong phòng này từ database
-        ArrayList<Message> listMessagesInRoom = clientProcess.getMessagesFromDatabase(currentRoom);
-        clientProcess.setListMessagesInARoom(listMessagesInRoom);
-        for (Message m : clientProcess.getListMessagesInARoom()) {
-            updateChatScreen(m);
-        }
-        
+        // lay messages cu~ tu database
+        clientProcess.getMessagesFromDatabase(currentRoom);
+
 //        clientProcess.sendOnlineStatus(1, clientProcess.getRoom().getId(), clientProcess.getUser().getId());
 //        lắng nghe để cập nhật trạng thái online/ offline trong phòng chat trên UI của người dùng
 //        clientProcess.listenOnlineStatus();
-        
         // set room frame cho tiến trình client process để gọi hàm update ui ở bên client process mỗi khi có tin nhắn tới
         clientProcess.setRoomFrame(this);
-          
-        // lắng nghe tin nhắn tới
-        
-        clientProcess.listenToMessage();
-        
+
         // Gửi tin nhắn
         btnSend.addActionListener((e) -> {
             String input = txtMessage.getText();
@@ -100,28 +92,29 @@ public class SingleChatFrm extends javax.swing.JFrame {
             // xóa đi text đã nhập trong input và hiện trong screen chat
             txtMessage.setText("");
             clientProcess.getListMessagesInARoom().add(message);
-            
-            
+
         });
-        
-        
+
     }
 
     public void updateChatScreen(Message message) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (message.getTextContent() != null) {
-            messagesOnTheScreen += (message.getUserInARoom().getUser().getUserName()+" ("+sdf.format(message.getTime()) +")" + ":\n" + message.getTextContent() + "\n\n");
+            messagesOnTheScreen += (message.getUserInARoom().getUser().getUserName() + " (" + sdf.format(message.getTime()) + ")" + ":\n" + message.getTextContent() + "\n\n");
             txtChatScreen.setText(messagesOnTheScreen);
         }
     }
 
-    public void updateOnlineStatus(int onlineStatus) {
-        if (onlineStatus == 1) {
-            labelStatus.setText("online");
-            labelStatus.setForeground(Color.GREEN);
-        } else if (onlineStatus == 0) {
-            labelStatus.setText("offline");
-            labelStatus.setForeground(Color.red);
+    public void updateUIOnlineStatus(String status) {
+        switch (status) {
+            case "ONLINE":
+                labelStatus.setText("online");
+                labelStatus.setForeground(Color.GREEN);
+                break;
+            case "OFFLINE":
+                labelStatus.setText("offline");
+                labelStatus.setForeground(Color.RED);
+                break;
         }
     }
 

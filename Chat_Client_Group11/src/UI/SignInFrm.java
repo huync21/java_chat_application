@@ -6,7 +6,7 @@
 package UI;
 
 import Model.User;
-import Service.ClientProcess;
+import service.ClientProcess;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,25 +18,18 @@ public class SignInFrm extends javax.swing.JFrame {
     /**
      * Creates new form SignInFrm
      */
-    private ClientProcess clientProcess;
+     private ClientProcess clientProcess;
     public SignInFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
+        clientProcess.setCurrentFrame(this);
         btnSignUp.addActionListener((e) -> {
             new SignUpFrm(clientProcess).setVisible(true);
             this.dispose();
         });
         
         btnSignIn.addActionListener((e) -> {
-            String responseMessage = clientProcess.signIn(packUserFromTextFields());
-            if(responseMessage.equals("Sign In Successfully")){
-                
-                new ChatHomeFrm(clientProcess).setVisible(true);
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(this, responseMessage);
-                txtPassword.setText("");
-            }
+            clientProcess.signIn(packUserFromTextFields());
         });
         
         
@@ -47,6 +40,16 @@ public class SignInFrm extends javax.swing.JFrame {
         user.setUserName(txtUserName.getText());
         user.setPassword(txtPassword.getText());
         return user;
+    }
+    
+    public void goToChatHomeFrm(){
+        ChatHomeFrm chatHomeFrm = new ChatHomeFrm(clientProcess);
+        chatHomeFrm.setVisible(true);
+        this.dispose();
+    }
+    
+    public void showMessage(String message){
+        JOptionPane.showMessageDialog(this, message);
     }
     
     /**

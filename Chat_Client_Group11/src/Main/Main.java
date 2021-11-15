@@ -5,7 +5,7 @@
  */
 package Main;
 
-import Service.ClientProcess;
+import service.ClientProcess;
 import UI.SignInFrm;
 import java.io.IOException;
 import java.net.Socket;

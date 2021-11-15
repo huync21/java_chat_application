@@ -9,7 +9,7 @@ import Model.Message;
 import Model.Room;
 import Model.User;
 import Model.UserInARoom;
-import Service.ClientProcess;
+import service.ClientProcess;
 import UI.SingleChatRoomsFrm;
 import java.awt.List;
 import java.text.SimpleDateFormat;
@@ -40,7 +40,7 @@ public class GroupChatFrm extends javax.swing.JFrame {
         
         
         btnBack.addActionListener((e) -> {
-            clientProcess.outRoom();// ngừng cái thread đang lắng nghe lại khi quay về màn hình khác
+            
             new SingleChatRoomsFrm(clientProcess).setVisible(true);
             this.dispose();
         });
@@ -57,7 +57,7 @@ public class GroupChatFrm extends javax.swing.JFrame {
         }
         
          //Lúc mới mở màn hình chat của phòng này thì lấy ra danh sách các tin nhắn cũ trong phòng này từ database
-        ArrayList<Message> listMessagesInRoom = clientProcess.getMessagesFromDatabase(currentRoom);
+//        ArrayList<Message> listMessagesInRoom = clientProcess.getMessagesFromDatabase(currentRoom);
         clientProcess.setListMessagesInARoom(listMessagesInRoom);
         for (Message m : clientProcess.getListMessagesInARoom()) {
             System.out.println(m.getTextContent() + " " + m.getId());

@@ -8,7 +8,7 @@ package UI.groupChat;
 import Model.Room;
 import Model.User;
 import Model.UserInARoom;
-import Service.ClientProcess;
+import service.ClientProcess;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

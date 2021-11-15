@@ -8,7 +8,7 @@ package UI;
 import Model.Room;
 import Model.User;
 import Model.UserInARoom;
-import Service.ClientProcess;
+import service.ClientProcess;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -30,11 +30,17 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
     public SingleChatRoomsFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
-        
+        clientProcess.setCurrentFrame(this);
         // lay cac single chat rooms ung voi nguoi dung tren server ve
         int userId = clientProcess.getUser().getId();
-        listSingleChatRooms = clientProcess.getSingleChatRooms(userId);
+        // gui request lên server để lấy các room 
+        clientProcess.getSingleChatRooms(userId);
         
+        
+    }
+    
+    public void receiveRoomsAndDisplayData(ArrayList<Room> listRoom){
+        listSingleChatRooms = listRoom;
         // hien thi
         String[][] data = new String[listSingleChatRooms.size()][4];
         String[] columnNames = {"id room","user name","full name","online status"};
@@ -71,6 +77,7 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
                 if (row < tblRooms.getRowCount() && row >= 0 && 
                             column < tblRooms.getColumnCount() && column >= 0) {
                    Room room = listSingleChatRooms.get(row);
+                   // set room cho tien trinh clientHandler
                    clientProcess.setRoom(room);
                    new SingleChatFrm(clientProcess).setVisible(true);
                    mainFrame.dispose();

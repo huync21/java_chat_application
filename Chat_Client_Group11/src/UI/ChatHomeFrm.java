@@ -5,7 +5,7 @@
  */
 package UI;
 
-import Service.ClientProcess;
+import service.ClientProcess;
 import UI.groupChat.GroupChatFrm;
 import UI.groupChat.GroupChatRoomsFrm;
 import javax.swing.JFrame;
@@ -23,6 +23,9 @@ public class ChatHomeFrm extends javax.swing.JFrame {
     public ChatHomeFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
+        
+        //gui broadcast trang thai dang nhap
+        clientProcess.sendOnlineStatus();
         
         txtUserFullName.setText("Hi, "+clientProcess.getUser().getFullName()+"!");
         

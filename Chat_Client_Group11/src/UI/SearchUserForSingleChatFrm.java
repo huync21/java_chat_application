@@ -8,7 +8,7 @@ package UI;
 import Model.Room;
 import Model.User;
 import Model.UserInARoom;
-import Service.ClientProcess;
+import service.ClientProcess;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
