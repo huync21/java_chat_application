@@ -6,6 +6,7 @@
             <name>Chat_Client_Group11</name>
             <source-roots>
                 <root id="src.dir"/>
+                <root id="src.resources.dir" name="Resources"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>
