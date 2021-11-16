@@ -51,19 +51,16 @@ public class SingleChatFrm extends javax.swing.JFrame {
         // In ra tên user còn lại và trạng thái đăng nhập
         labelTheRestUserName.setText(theRestUserInTheRoom.getUserName() + "(" + theRestUserInTheRoom.getFullName() + ")");
         if (theRestUserInTheRoom.getOnlineStatus() == 1) {
-            labelStatus.setText("online");
+            labelStatus.setText("Online");
             labelStatus.setForeground(Color.GREEN);
         } else {
-            labelStatus.setText("offline");
+            labelStatus.setText("Offline");
             labelStatus.setForeground(Color.red);
         }
 
         // lay messages cu~ tu database
         clientProcess.getMessagesFromDatabase(currentRoom);
-
-//        clientProcess.sendOnlineStatus(1, clientProcess.getRoom().getId(), clientProcess.getUser().getId());
-//        lắng nghe để cập nhật trạng thái online/ offline trong phòng chat trên UI của người dùng
-//        clientProcess.listenOnlineStatus();
+        
         // set room frame cho tiến trình client process để gọi hàm update ui ở bên client process mỗi khi có tin nhắn tới
         clientProcess.setRoomFrame(this);
 
@@ -96,23 +93,25 @@ public class SingleChatFrm extends javax.swing.JFrame {
         });
 
     }
-
+    
+    // khi nao co tin nhan toi, client process se goi ham nay
     public void updateChatScreen(Message message) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         if (message.getTextContent() != null) {
             messagesOnTheScreen += (message.getUserInARoom().getUser().getUserName() + " (" + sdf.format(message.getTime()) + ")" + ":\n" + message.getTextContent() + "\n\n");
             txtChatScreen.setText(messagesOnTheScreen);
         }
     }
-
+    
+    
     public void updateUIOnlineStatus(String status) {
         switch (status) {
             case "ONLINE":
-                labelStatus.setText("online");
+                labelStatus.setText("Online");
                 labelStatus.setForeground(Color.GREEN);
                 break;
             case "OFFLINE":
-                labelStatus.setText("offline");
+                labelStatus.setText("Offline");
                 labelStatus.setForeground(Color.RED);
                 break;
         }
@@ -148,6 +147,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
+        labelStatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelStatus.setText("status: online or offline");
 
         txtChatScreen.setEditable(false);

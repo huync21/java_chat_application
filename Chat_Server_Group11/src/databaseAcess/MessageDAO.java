@@ -36,7 +36,7 @@ public class MessageDAO extends DAO {
             ps.setInt(1, room.getId());
             ResultSet rs = ps.executeQuery();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
             while (rs.next()) {
                 Message message = new Message();
                 message.setId(rs.getInt("messageId"));
@@ -67,7 +67,7 @@ public class MessageDAO extends DAO {
 
     public void saveMessage(Message message) { // cứ gửi tin nhắn đi thì phải lưu vào db
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
             PreparedStatement ps = con.prepareStatement("INSERT INTO tblmessage(textContent,time,tblUserInARoomId) VALUES (?,?,?)");
             ps.setString(1, message.getTextContent());
             ps.setString(2, sdf.format(message.getTime()));

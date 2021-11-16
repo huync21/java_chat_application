@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import service.ClientHandler;
 import service.ServerProcess;
 
@@ -141,11 +143,18 @@ public class RoomDAO extends DAO {
                 room.setId(generatedKeys.getInt(1));
                 
                 for(UserInARoom us : room.getListUserInARoom()){
-                    ps = con.prepareStatement(insertUserInRoom);
-                    ps.setInt(1, us.getUser().getId());
-                    ps.setInt(2, room.getId());
+                    PreparedStatement ps1 = con.prepareStatement(insertUserInRoom,
+                       Statement.RETURN_GENERATED_KEYS);
+                    ps1.setInt(1, us.getUser().getId());
+                    ps1.setInt(2, room.getId());
                     
-                    int rs = ps.executeUpdate();
+                    int rs = ps1.executeUpdate();
+                    
+                    ResultSet generatedKeys1 = ps1.getGeneratedKeys();
+                    if(generatedKeys1.next()){
+                        int userInAroom = generatedKeys1.getInt(1);
+                        us.setId(userInAroom);
+                    }
                     if(rs == 0) {//unavailable
                         con.rollback();
                         con.setAutoCommit(true);
@@ -159,6 +168,12 @@ public class RoomDAO extends DAO {
         catch(Exception ex){
             ex.printStackTrace();
             return null;
+        }finally{
+            try {
+                con.setAutoCommit(true);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return room;
     }

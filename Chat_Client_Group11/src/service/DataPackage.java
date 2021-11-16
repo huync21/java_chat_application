@@ -22,6 +22,8 @@ public class DataPackage implements Serializable{
     public static final int RECEIVE_MESSAGE = 7;
     public static final int SEND_ONLINE_STATUS_BROADCAST = 8;
     public static final int RECEIVE_ONLINE_STATUS_BROADCAST = 9;
+    public static final int GET_ALL_USERS = 10;
+    public static final int CREATE_ROOM = 11;
     private int operation;
     private Object data;
     private String statusMessage;

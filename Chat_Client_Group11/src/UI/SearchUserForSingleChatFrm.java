@@ -8,8 +8,11 @@ package UI;
 import Model.Room;
 import Model.User;
 import Model.UserInARoom;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import service.ClientProcess;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,29 +25,69 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
      * Creates new form SearchUserForSingleChatFrm
      */
     private ClientProcess clientProcess;
+    private ArrayList<User> listUsers;
+    private JFrame mainFrame = this;
+
     public SearchUserForSingleChatFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
-        
+        clientProcess.setCurrentFrame(this);
         btnBack.addActionListener((e) -> {
             new SingleChatRoomsFrm(clientProcess).setVisible(true);
             this.dispose();
         });
-        
-        ArrayList<User> listUsers = clientProcess.getAllUsers(clientProcess.getUser().getId());
-        
+
+        clientProcess.getAllUsers();
+
+        // tao phong moi cho user neu chua ton tai, ton tai roi thi tra ve luon
+        tblUsers.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = tblUsers.getColumnModel().
+                        getColumnIndexAtX(e.getX()); // 
+                int row = e.getY() / tblUsers.getRowHeight();
+                
+                if (row < tblUsers.getRowCount() && row >= 0
+                        && column < tblUsers.getColumnCount() && column >= 0) {
+                    User otherUser = listUsers.get(row);
+                    Room room = new Room();
+                    ArrayList<UserInARoom> listUserInARooms = new ArrayList<>();
+                    UserInARoom userInARoom1 = new UserInARoom();
+                    userInARoom1.setUser(clientProcess.getUser());
+                    listUserInARooms.add(userInARoom1);
+                    UserInARoom userInARoom2 = new UserInARoom();
+                    userInARoom2.setUser(otherUser);
+                    listUserInARooms.add(userInARoom2);
+                    room.setListUserInARoom(listUserInARooms);
+
+                    clientProcess.creatRoom(room);
+                }
+            }
+        });
+
+    }
+
+    public void receiveAllUsersAndDisplay(ArrayList<User> listUsers) {
+        this.listUsers = listUsers;
         // hien thi
         String[][] data = new String[listUsers.size()][4];
-        String[] columnNames = {"id","user name","full name","online status"};
-        for(int i=0;i<listUsers.size();i++){
+        String[] columnNames = {"id", "user name", "full name", "online status"};
+        for (int i = 0; i < listUsers.size(); i++) {
             User user = listUsers.get(i);
-            data[i][0] = user.getId()+"";
+            data[i][0] = user.getId() + "";
             data[i][1] = user.getUserName();
             data[i][2] = user.getFullName();
-            data[i][3] = user.getOnlineStatus()+"";
+            data[i][3] = user.getOnlineStatus() + "";
         }
         DefaultTableModel dtm = new DefaultTableModel(data, columnNames);
         tblUsers.setModel(dtm);
+    }
+
+    public void receiveRoomAndGoChatInThatRoom(Room room) {
+        // set room cho tien trinh clientHandler
+        clientProcess.setRoom(room);
+        new SingleChatFrm(clientProcess).setVisible(true);
+        mainFrame.dispose();
     }
 
     /**
@@ -126,7 +169,6 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;

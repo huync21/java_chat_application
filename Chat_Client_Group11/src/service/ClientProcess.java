@@ -4,6 +4,7 @@ import Model.Message;
 import Model.User;
 import Model.Room;
 import Model.UserInARoom;
+import UI.SearchUserForSingleChatFrm;
 import UI.SignInFrm;
 import UI.SignUpFrm;
 import UI.SingleChatFrm;
@@ -129,6 +130,20 @@ public class ClientProcess {
                                     }
                                 }
                                 break;
+                            case DataPackage.GET_ALL_USERS:
+                                if(currentFrame instanceof SearchUserForSingleChatFrm){
+                                    SearchUserForSingleChatFrm searchUserForSingleChatFrm = (SearchUserForSingleChatFrm) currentFrame;
+                                    ArrayList<User> listAllUsers = (ArrayList<User>) receivePackage.getData();
+                                    searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listAllUsers);
+                                }
+                                break;
+                            case DataPackage.CREATE_ROOM:
+                                if(currentFrame instanceof SearchUserForSingleChatFrm){
+                                    SearchUserForSingleChatFrm searchUserForSingleChatFrm = (SearchUserForSingleChatFrm) currentFrame;
+                                    Room receiveRoom = (Room) receivePackage.getData();
+                                    searchUserForSingleChatFrm.receiveRoomAndGoChatInThatRoom(receiveRoom);
+                                }
+                                break;
                             default:
                                 break;
                         }
@@ -170,29 +185,14 @@ public class ClientProcess {
         }
     }
 
-    public ArrayList<User> getAllUsers(int exceptThisUserId) {
-        ArrayList<User> listUser = new ArrayList<>();
+    //gui request lay ra tat ca user de chat don tru user nay
+    public void getAllUsers() { 
         try {
-            //header
-            dos.writeUTF("get all users");
-
-            //body: loai tru chinh user nay ra
-            dos.writeInt(user.getId());
-            dos.flush();
-
-            //get back result
-            User u = new User();
-            while ((u = (User) ois.readObject()) != null) {
-                listUser.add(u);
-            }
-
+            oos.writeObject(new DataPackage(DataPackage.GET_ALL_USERS, user.getId()));
+            oos.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-
-        return listUser;
+        } 
     }
 
     // lấy tất cả tin nhắn trong phòng room chỉ định
@@ -215,51 +215,15 @@ public class ClientProcess {
 
     }
 
-    public void listenToMessage() {// Lắng nghe tin nhắn mới đến
 
-        this.currentThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Message m = (Message) ois.readObject();
-                        listMessagesInARoom.add(m);
-
-                        // Gọi UI phòng chat cập nhật màn hình chat có thêm message mới vừa nhận về
-                        if (roomFrame != null) {
-                            roomFrame.updateChatScreen(m);
-                        } else {
-                            groupRoomFrame.updateChatScreen(m);
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        break;
-                    }
-                }
-            }
-        });
-        this.currentThread.start();
-    }
-
-    public Room creatRoom(Room room) throws ClassNotFoundException {
-        ArrayList<Room> listRooms = new ArrayList<>();
-        Room result = null;
+    public void creatRoom(Room room)  {
         try {
-            //header
-            dos.writeUTF("creat room");
-            dos.flush();
-
-            //body
-            oos.writeObject(room);
-            dos.flush();
-
-            //get back result
-            result = (Room) ois.readObject();
-
-        } catch (IOException ex) {
+            oos.writeObject(new DataPackage(DataPackage.CREATE_ROOM, room));
+            oos.flush();
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return result;
+        
     }
 
     public ArrayList<Room> getGroupChatRooms(int userId) {

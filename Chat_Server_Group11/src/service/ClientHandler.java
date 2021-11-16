@@ -113,15 +113,12 @@ public class ClientHandler implements Runnable {
                         oos.writeObject(responsePackage);
                         oos.flush();
                         break;
-//                    case "get all users": // lấy ra tất cả người dùng trừ người dùng yêu cầu
-//                        int exceptUser = dis.readInt();
-//                        ArrayList<User> allUsers = new UserDAO().getAllUsers(exceptUser);
-//                        for (User user : allUsers) {
-//                            oos.writeObject(user);
-//                        }
-//                        oos.writeObject(null);
-//                        oos.flush();
-//                        break;
+                    case DataPackage.GET_ALL_USERS: // lấy ra tất cả người dùng trừ người dùng yêu cầu
+                        int exceptUser = (Integer) dataPackage.getData();
+                        ArrayList<User> allUsers = new UserDAO().getAllUsers(exceptUser);
+                        oos.writeObject(new DataPackage(DataPackage.GET_ALL_USERS, allUsers));
+                        oos.flush();
+                        break;
                     case DataPackage.SET_CURRENT_ROOM: // khi user click vào 1 phòng trong máy khách thì set current room trên ClientHandler trong server là phòng đó luôn để tí nữa phục vụ gửi message
                         Room cuRoom = (Room) dataPackage.getData();
                         this.currentRoom = cuRoom;
@@ -196,6 +193,15 @@ public class ClientHandler implements Runnable {
                             }
                         }
                         break;
+                    case DataPackage.CREATE_ROOM:
+                        Room room = (Room)dataPackage.getData();
+                        room = new RoomDAO().createRoom(room);
+                        responsePackage.setOperation(DataPackage.CREATE_ROOM);
+                        responsePackage.setData(room);
+                        responsePackage.setStatusMessage("OK");
+                        oos.writeObject(responsePackage);
+                        oos.flush();
+                        break;
                     default:
                         break;
 //
@@ -213,7 +219,7 @@ public class ClientHandler implements Runnable {
                         try {
                             c.getOos().writeObject(responsePackage);
                         } catch (IOException ex1) {
-                            ex.printStackTrace();
+                            
                         }
                     }
 
