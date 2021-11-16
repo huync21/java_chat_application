@@ -29,16 +29,21 @@
                   <Component id="txtMessage" pref="525" max="32767" attributes="0"/>
                   <Component id="jScrollPane4" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btnSend" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Component id="jLabel1" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
-                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="emojiSad" max="32767" attributes="0"/>
-                          <Component id="emojiHeart" max="32767" attributes="0"/>
-                          <Component id="emojiPacman" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnSend" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="emojiSad" max="32767" attributes="0"/>
+                              <Component id="emojiHeart" max="32767" attributes="0"/>
+                              <Component id="emojiPacman" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="emojiPenguin" min="-2" pref="49" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -96,12 +101,14 @@
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="emojiWow" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="emojiCool" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" pref="48" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="emojiWow" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="emojiCool" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="emojiPenguin" min="-2" pref="56" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="emojiPacman" max="32767" attributes="0"/>
                           <Component id="emojiConfuse" alignment="0" max="32767" attributes="0"/>
@@ -178,6 +185,10 @@
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiWowMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiWowMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiCool">
       <Properties>
@@ -186,6 +197,10 @@
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel2"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiCoolMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiCoolMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiPacman">
       <Properties>
@@ -193,6 +208,10 @@
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\PACMAN.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPacmanMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPacmanMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="txtUser">
       <Properties>
@@ -205,6 +224,10 @@
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\confuse.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiConfuseMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiConfuseMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiCheer">
       <Properties>
@@ -212,6 +235,10 @@
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\cheer.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiCheerMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiCheerMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiHeart">
       <Properties>
@@ -219,6 +246,10 @@
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\heart.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiHeartMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiHeartMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiBigSmile">
       <Properties>
@@ -226,6 +257,10 @@
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\bigSmile.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiBigSmileMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiBigSmileMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiReverseSmile">
       <Properties>
@@ -233,6 +268,10 @@
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\reverseSmile.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiReverseSmileMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiReverseSmileMouseEntered"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiSad">
       <Properties>
@@ -240,14 +279,21 @@
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\sad.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiSadMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiSadMouseEntered"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="emojiPenguin">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\penguin.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPenguinMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPenguinMouseEntered"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -20,8 +20,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.StyledDocument;
@@ -215,7 +217,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
         emojiBigSmile = new javax.swing.JLabel();
         emojiReverseSmile = new javax.swing.JLabel();
         emojiSad = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        emojiPenguin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -244,28 +246,107 @@ public class SingleChatFrm extends javax.swing.JFrame {
 
         emojiWow.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\wow.png")); // NOI18N
         emojiWow.setText("jLabel1");
+        emojiWow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiWowMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiWowMouseEntered(evt);
+            }
+        });
 
         emojiCool.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\cool.png")); // NOI18N
         emojiCool.setText("jLabel2");
+        emojiCool.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiCoolMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiCoolMouseEntered(evt);
+            }
+        });
 
         emojiPacman.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\PACMAN.png")); // NOI18N
+        emojiPacman.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiPacmanMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiPacmanMouseEntered(evt);
+            }
+        });
 
         txtUser.setText("jLabel4");
 
         emojiConfuse.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\confuse.png")); // NOI18N
+        emojiConfuse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiConfuseMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiConfuseMouseEntered(evt);
+            }
+        });
 
         emojiCheer.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\cheer.png")); // NOI18N
+        emojiCheer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiCheerMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiCheerMouseEntered(evt);
+            }
+        });
 
         emojiHeart.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\heart.png")); // NOI18N
+        emojiHeart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiHeartMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiHeartMouseEntered(evt);
+            }
+        });
 
         emojiBigSmile.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\bigSmile.png")); // NOI18N
+        emojiBigSmile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiBigSmileMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiBigSmileMouseEntered(evt);
+            }
+        });
 
         emojiReverseSmile.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\reverseSmile.png")); // NOI18N
+        emojiReverseSmile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiReverseSmileMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiReverseSmileMouseEntered(evt);
+            }
+        });
 
         emojiSad.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\sad.png")); // NOI18N
+        emojiSad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiSadMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiSadMouseEntered(evt);
+            }
+        });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\penguin.png")); // NOI18N
-        jLabel1.setText("jLabel1");
+        emojiPenguin.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\penguin.png")); // NOI18N
+        emojiPenguin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiPenguinMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                emojiPenguinMouseEntered(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -276,15 +357,18 @@ public class SingleChatFrm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
                     .addComponent(jScrollPane4))
-                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSend)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(emojiSad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(emojiHeart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(emojiPacman, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSend)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(emojiSad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(emojiHeart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(emojiPacman, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(emojiPenguin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(emojiWow, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,11 +412,12 @@ public class SingleChatFrm extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(emojiWow)
-                            .addComponent(emojiCool, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(emojiWow)
+                                .addComponent(emojiCool, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(emojiPenguin, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(emojiPacman, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(emojiConfuse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -388,6 +473,108 @@ public class SingleChatFrm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtMessageKeyPressed
 
+    private void emojiPenguinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiPenguinMouseClicked
+        // TODO add your handling code here:
+        sendMessage("<(\")");
+    }//GEN-LAST:event_emojiPenguinMouseClicked
+
+    private void emojiWowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiWowMouseClicked
+        // TODO add your handling code here:
+        sendMessage(":o");
+    }//GEN-LAST:event_emojiWowMouseClicked
+
+    private void emojiCoolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiCoolMouseClicked
+        // TODO add your handling code here:
+        sendMessage("B)");
+    }//GEN-LAST:event_emojiCoolMouseClicked
+
+    private void emojiPacmanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiPacmanMouseClicked
+        // TODO add your handling code here:
+        sendMessage(":v");
+    }//GEN-LAST:event_emojiPacmanMouseClicked
+
+    private void emojiConfuseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiConfuseMouseClicked
+        // TODO add your handling code here:
+        sendMessage(":/");
+    }//GEN-LAST:event_emojiConfuseMouseClicked
+
+    private void emojiCheerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiCheerMouseClicked
+        // TODO add your handling code here:
+        sendMessage("^_^");
+    }//GEN-LAST:event_emojiCheerMouseClicked
+
+    private void emojiHeartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiHeartMouseClicked
+        // TODO add your handling code here:
+        sendMessage("<3");
+    }//GEN-LAST:event_emojiHeartMouseClicked
+
+    private void emojiBigSmileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiBigSmileMouseClicked
+        // TODO add your handling code here:
+        sendMessage(":D");
+    }//GEN-LAST:event_emojiBigSmileMouseClicked
+
+    private void emojiReverseSmileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiReverseSmileMouseClicked
+        // TODO add your handling code here:
+        sendMessage("(:");
+    }//GEN-LAST:event_emojiReverseSmileMouseClicked
+
+    private void emojiSadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiSadMouseClicked
+        // TODO add your handling code here:
+        sendMessage(":(");
+    }//GEN-LAST:event_emojiSadMouseClicked
+
+    private void emojiPenguinMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiPenguinMouseEntered
+        emojiPenguin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiPenguinMouseEntered
+
+    private void emojiWowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiWowMouseEntered
+        // TODO add your handling code here:
+        emojiWow.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiWowMouseEntered
+
+    private void emojiCoolMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiCoolMouseEntered
+        // TODO add your handling code here:
+        emojiCool.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiCoolMouseEntered
+
+    private void emojiPacmanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiPacmanMouseEntered
+        // TODO add your handling code here:
+        emojiPacman.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiPacmanMouseEntered
+
+    private void emojiConfuseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiConfuseMouseEntered
+        // TODO add your handling code here:
+        emojiConfuse.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiConfuseMouseEntered
+
+    private void emojiCheerMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiCheerMouseEntered
+        // TODO add your handling code here:
+        emojiCheer.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiCheerMouseEntered
+
+    private void emojiHeartMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiHeartMouseEntered
+        // TODO add your handling code here
+        emojiHeart.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiHeartMouseEntered
+
+    private void emojiBigSmileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiBigSmileMouseEntered
+        // TODO add your handling code here:
+        emojiBigSmile.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiBigSmileMouseEntered
+
+    private void emojiReverseSmileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiReverseSmileMouseEntered
+        // TODO add your handling code here:
+        emojiReverseSmile.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiReverseSmileMouseEntered
+
+    private void emojiSadMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiSadMouseEntered
+        // TODO add your handling code here:
+        emojiSad.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_emojiSadMouseEntered
+
+    
+    
+    
     private void sendMessage(String input) {
         Message message = new Message();
         message.setTextContent(input);
@@ -418,10 +605,10 @@ public class SingleChatFrm extends javax.swing.JFrame {
     private javax.swing.JLabel emojiCool;
     private javax.swing.JLabel emojiHeart;
     private javax.swing.JLabel emojiPacman;
+    private javax.swing.JLabel emojiPenguin;
     private javax.swing.JLabel emojiReverseSmile;
     private javax.swing.JLabel emojiSad;
     private javax.swing.JLabel emojiWow;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel labelStatus;
     private javax.swing.JLabel labelTheRestUserName;
