@@ -153,7 +153,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
                 map.put("<(\")", "https://static.xx.fbcdn.net/images/emoji.php/v9/t24/1.5/32/1f427.png");
                 map.put(":3", "https://static.xx.fbcdn.net/images/emoji.php/v9/ec7/1.5/32/FACE_WITH_COLON_THREE.png");
                 map.put(":v", "https://static.xx.fbcdn.net/images/emoji.php/v9/e7e/1.5/32/PACMAN.png");
-                map.put("<3", "heart.png");
+                map.put("<3", "https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1.5/32/2764.png");
 
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     if (textContent.equals(entry.getKey())) {
