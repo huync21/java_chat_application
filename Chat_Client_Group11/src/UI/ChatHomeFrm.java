@@ -27,7 +27,7 @@ public class ChatHomeFrm extends javax.swing.JFrame {
         //gui broadcast trang thai dang nhap
         clientProcess.sendOnlineStatus();
         
-        txtUserFullName.setText("Hi, "+clientProcess.getUser().getFullName()+"!");
+        txtUserFullName.setText("Xin chào, "+clientProcess.getUser().getFullName()+"!");
         
         btnSingleChat.addActionListener((e) -> {
            new SingleChatRoomsFrm(clientProcess).setVisible(true);
@@ -61,9 +61,9 @@ public class ChatHomeFrm extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Chat Home");
+        jLabel1.setText("Trang chủ");
 
-        txtUserFullName.setText("Hi, @userFullName");
+        txtUserFullName.setText("Xin chào, @userFullName");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,7 +82,7 @@ public class ChatHomeFrm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(txtUserFullName)))
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

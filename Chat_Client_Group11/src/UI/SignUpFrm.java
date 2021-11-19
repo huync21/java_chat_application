@@ -73,15 +73,15 @@ public class SignUpFrm extends javax.swing.JFrame {
         jLabel1.setText("User Name:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel2.setText("Sign Up");
+        jLabel2.setText("Đăng ký");
 
         jLabel3.setText("Password:");
 
-        btnSignUp.setText("Sign Up");
+        btnSignUp.setText("Đăng ký");
 
-        btnSignIn.setText("Sign In");
+        btnSignIn.setText("Quay lại trang đăng nhập");
 
-        jLabel4.setText("Full Name:");
+        jLabel4.setText("Họ và tên:");
 
         jLabel5.setText("Email:");
 
@@ -102,7 +102,6 @@ public class SignUpFrm extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUserName)
                     .addComponent(txtPassword)
                     .addGroup(layout.createSequentialGroup()
@@ -111,14 +110,18 @@ public class SignUpFrm extends javax.swing.JFrame {
                         .addComponent(btnSignIn))
                     .addComponent(txtFullName)
                     .addComponent(txtPhoneNo))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(23, 23, 23)
                 .addComponent(jLabel2)
-                .addGap(42, 42, 42)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))

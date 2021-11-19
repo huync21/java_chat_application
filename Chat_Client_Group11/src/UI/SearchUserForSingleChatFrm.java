@@ -27,6 +27,7 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
     private ClientProcess clientProcess;
     private ArrayList<User> listUsers;
     private JFrame mainFrame = this;
+    private User otherUser;
 
     public SearchUserForSingleChatFrm(ClientProcess clientProcess) {
         initComponents();
@@ -46,21 +47,11 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
                 int column = tblUsers.getColumnModel().
                         getColumnIndexAtX(e.getX()); // 
                 int row = e.getY() / tblUsers.getRowHeight();
-                
+
                 if (row < tblUsers.getRowCount() && row >= 0
                         && column < tblUsers.getColumnCount() && column >= 0) {
-                    User otherUser = listUsers.get(row);
-                    Room room = new Room();
-                    ArrayList<UserInARoom> listUserInARooms = new ArrayList<>();
-                    UserInARoom userInARoom1 = new UserInARoom();
-                    userInARoom1.setUser(clientProcess.getUser());
-                    listUserInARooms.add(userInARoom1);
-                    UserInARoom userInARoom2 = new UserInARoom();
-                    userInARoom2.setUser(otherUser);
-                    listUserInARooms.add(userInARoom2);
-                    room.setListUserInARoom(listUserInARooms);
-
-                    clientProcess.creatRoom(room);
+                    otherUser = listUsers.get(row);
+                    clientProcess.getExistedSingleChatRoom(clientProcess.getUser(), otherUser);
                 }
             }
         });
@@ -71,7 +62,7 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
         this.listUsers = listUsers;
         // hien thi
         String[][] data = new String[listUsers.size()][4];
-        String[] columnNames = {"id", "user name", "full name", "online status"};
+        String[] columnNames = {"id", "user name", "họ tên", "online status"};
         for (int i = 0; i < listUsers.size(); i++) {
             User user = listUsers.get(i);
             data[i][0] = user.getId() + "";
@@ -90,6 +81,21 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
         mainFrame.dispose();
     }
 
+    public void createRoom() {
+        Room room = new Room();
+        ArrayList<UserInARoom> listUserInARooms = new ArrayList<>();
+        UserInARoom userInARoom1 = new UserInARoom();
+        userInARoom1.setUser(clientProcess.getUser());
+        listUserInARooms.add(userInARoom1);
+        UserInARoom userInARoom2 = new UserInARoom();
+        userInARoom2.setUser(otherUser);
+        listUserInARooms.add(userInARoom2);
+        room.setListUserInARoom(listUserInARooms);
+        clientProcess.creatRoom(room);
+    }
+    
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,7 +107,6 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         txtSearchUser = new javax.swing.JTextField();
-        btnSearchUser = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUsers = new javax.swing.JTable();
         btnBack = new javax.swing.JButton();
@@ -109,9 +114,19 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Search User To Chat With");
+        jLabel1.setText("Tìm người chat cùng");
 
-        btnSearchUser.setText("Search");
+        txtSearchUser.setToolTipText("Nhập từ khóa họ tên người cần chat");
+        txtSearchUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchUserActionPerformed(evt);
+            }
+        });
+        txtSearchUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchUserKeyTyped(evt);
+            }
+        });
 
         tblUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -133,18 +148,18 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnBack)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)))
-                        .addGap(44, 44, 44)
-                        .addComponent(btnSearchUser)))
+                                .addGap(81, 81, 81)
+                                .addComponent(jLabel1))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addComponent(txtSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,24 +170,32 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGap(21, 21, 21)
                         .addComponent(btnBack)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearchUser))
-                .addGap(42, 42, 42)
+                .addComponent(txtSearchUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
+
+        txtSearchUser.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtSearchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchUserActionPerformed
+        
+    }//GEN-LAST:event_txtSearchUserActionPerformed
+
+    private void txtSearchUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchUserKeyTyped
+        // TODO add your handling code here:
+        clientProcess.getUserByName(txtSearchUser.getText());
+    }//GEN-LAST:event_txtSearchUserKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnSearchUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblUsers;

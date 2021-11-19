@@ -17,6 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -122,7 +124,7 @@ public class ClientProcess {
                                             theRestUserInTheRoom = u.getUser();
                                         }
                                     }
-                                    
+
                                     // so sanh, neu giong thi moi cap nhat trang thai online offline
                                     if (theRestUserInTheRoom.getId() == onlineUser.getId()) {
                                         String onlineStatus = receivePackage.getStatusMessage();
@@ -131,17 +133,36 @@ public class ClientProcess {
                                 }
                                 break;
                             case DataPackage.GET_ALL_USERS:
-                                if(currentFrame instanceof SearchUserForSingleChatFrm){
+                                if (currentFrame instanceof SearchUserForSingleChatFrm) {
                                     SearchUserForSingleChatFrm searchUserForSingleChatFrm = (SearchUserForSingleChatFrm) currentFrame;
                                     ArrayList<User> listAllUsers = (ArrayList<User>) receivePackage.getData();
                                     searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listAllUsers);
                                 }
                                 break;
+                            // xem phòng chat đơn giữa 2 người đã tồn tại chưa, nếu chưa thì tạo mới, nếu rồi thì lấy về thông tin room luôn
+                            case DataPackage.GET_EXISTED_ROOM:
+                                if (currentFrame instanceof SearchUserForSingleChatFrm) {
+                                    SearchUserForSingleChatFrm searchUserForSingleChatFrm = (SearchUserForSingleChatFrm) currentFrame;
+                                    if (receivePackage.getData() == null) {
+                                        searchUserForSingleChatFrm.createRoom();
+                                    } else {
+                                        Room receiveRoom = (Room) receivePackage.getData();
+                                        searchUserForSingleChatFrm.receiveRoomAndGoChatInThatRoom(receiveRoom);
+                                    }
+                                }
+                                break;
                             case DataPackage.CREATE_ROOM:
-                                if(currentFrame instanceof SearchUserForSingleChatFrm){
+                                if (currentFrame instanceof SearchUserForSingleChatFrm) {
                                     SearchUserForSingleChatFrm searchUserForSingleChatFrm = (SearchUserForSingleChatFrm) currentFrame;
                                     Room receiveRoom = (Room) receivePackage.getData();
                                     searchUserForSingleChatFrm.receiveRoomAndGoChatInThatRoom(receiveRoom);
+                                }
+                                break;
+                            case DataPackage.GET_USER_BY_NAME:
+                                if (currentFrame instanceof SearchUserForSingleChatFrm) {
+                                    SearchUserForSingleChatFrm searchUserForSingleChatFrm = (SearchUserForSingleChatFrm) currentFrame;
+                                    ArrayList<User> listUsers = (ArrayList<User>) receivePackage.getData();
+                                    searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listUsers);
                                 }
                                 break;
                             default:
@@ -186,13 +207,13 @@ public class ClientProcess {
     }
 
     //gui request lay ra tat ca user de chat don tru user nay
-    public void getAllUsers() { 
+    public void getAllUsers() {
         try {
             oos.writeObject(new DataPackage(DataPackage.GET_ALL_USERS, user.getId()));
             oos.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
-        } 
+        }
     }
 
     // lấy tất cả tin nhắn trong phòng room chỉ định
@@ -215,15 +236,14 @@ public class ClientProcess {
 
     }
 
-
-    public void creatRoom(Room room)  {
+    public void creatRoom(Room room) {
         try {
             oos.writeObject(new DataPackage(DataPackage.CREATE_ROOM, room));
             oos.flush();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        
+
     }
 
     public ArrayList<Room> getGroupChatRooms(int userId) {
@@ -261,8 +281,6 @@ public class ClientProcess {
             ex.printStackTrace();
         }
     }
-
-    
 
     public ClientProcess() {
     }
@@ -337,6 +355,30 @@ public class ClientProcess {
             ex.printStackTrace();
         }
 
+    }
+
+    public void getExistedSingleChatRoom(User user1, User user2) {
+        Room result = null;
+        try {
+            ArrayList<User> listUser = new ArrayList<>();
+            listUser.add(user1);
+            listUser.add(user2);
+            oos.writeObject(new DataPackage(DataPackage.GET_EXISTED_ROOM, listUser));
+            oos.flush();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void getUserByName(String keyWord) {
+        try {
+            oos.writeObject(new DataPackage(DataPackage.GET_USER_BY_NAME, keyWord));
+            oos.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

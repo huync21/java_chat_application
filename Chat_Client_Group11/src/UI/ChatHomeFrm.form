@@ -41,7 +41,7 @@
                       <Component id="txtUserFullName" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="191" max="32767" attributes="0"/>
+              <EmptySpace pref="204" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -80,12 +80,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Chat Home"/>
+        <Property name="text" type="java.lang.String" value="Trang ch&#x1ee7;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="txtUserFullName">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Hi, @userFullName"/>
+        <Property name="text" type="java.lang.String" value="Xin ch&#xe0;o, @userFullName"/>
       </Properties>
     </Component>
   </SubComponents>

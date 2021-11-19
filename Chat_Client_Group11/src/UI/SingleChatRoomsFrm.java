@@ -43,7 +43,7 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
         listSingleChatRooms = listRoom;
         // hien thi
         String[][] data = new String[listSingleChatRooms.size()][4];
-        String[] columnNames = {"id room","user name","full name","online status"};
+        String[] columnNames = {"id room","user name","họ tên","online status"};
         for(int i=0;i<listSingleChatRooms.size();i++){
             Room room = listSingleChatRooms.get(i);
             data[i][0] = room.getId()+"";
@@ -104,7 +104,7 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Single Chat Rooms");
+        jLabel1.setText("Chat đơn gần đây");
 
         tblRooms.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,7 +131,7 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jScrollPane1);
 
-        btnSearchForUser.setText("Search for user");
+        btnSearchForUser.setText("Tìm người chat");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,7 +140,7 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(183, 183, 183)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(btnSearchForUser)
                 .addGap(105, 105, 105))
             .addGroup(layout.createSequentialGroup()

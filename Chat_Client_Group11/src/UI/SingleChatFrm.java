@@ -153,7 +153,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
                 map.put("<(\")", "https://static.xx.fbcdn.net/images/emoji.php/v9/t24/1.5/32/1f427.png");
                 map.put(":3", "https://static.xx.fbcdn.net/images/emoji.php/v9/ec7/1.5/32/FACE_WITH_COLON_THREE.png");
                 map.put(":v", "https://static.xx.fbcdn.net/images/emoji.php/v9/e7e/1.5/32/PACMAN.png");
-                map.put("<3", "https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1.5/32/2764.png");
+                map.put("<3", "heart.png");
 
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     if (textContent.equals(entry.getKey())) {
@@ -224,7 +224,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
         labelTheRestUserName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         labelTheRestUserName.setText("@Name Of The Rest User");
 
-        btnSend.setText("Send");
+        btnSend.setText("Gửi");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendActionPerformed(evt);
@@ -430,11 +430,11 @@ public class SingleChatFrm extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addComponent(emojiSad, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 85, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSend))
-                .addGap(21, 21, 21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtMessage)
+                    .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                .addGap(57, 57, 57))
         );
 
         pack();

@@ -125,12 +125,12 @@
                   </Group>
                   <Component id="jScrollPane4" alignment="1" min="-2" pref="283" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" pref="85" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtMessage" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnSend" alignment="3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="txtMessage" max="32767" attributes="0"/>
+                  <Component id="btnSend" pref="34" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -146,7 +146,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSend">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Send"/>
+        <Property name="text" type="java.lang.String" value="G&#x1eed;i"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSendActionPerformed"/>

@@ -26,7 +26,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="81" max="32767" attributes="0"/>
+              <EmptySpace pref="99" max="32767" attributes="0"/>
               <Component id="btnSearchForUser" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
           </Group>
@@ -58,7 +58,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Single Chat Rooms"/>
+        <Property name="text" type="java.lang.String" value="Chat &#x111;&#x1a1;n g&#x1ea7;n &#x111;&#xe2;y"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -120,7 +120,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnSearchForUser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Search for user"/>
+        <Property name="text" type="java.lang.String" value="T&#xec;m ng&#x1b0;&#x1edd;i chat"/>
       </Properties>
     </Component>
   </SubComponents>
