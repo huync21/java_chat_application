@@ -24,7 +24,17 @@ public class SignUpFrm extends javax.swing.JFrame {
         this.clientProcess = clientProcess;
         clientProcess.setCurrentFrame(this);
         btnSignUp.addActionListener((e) -> {
-            clientProcess.signUp(packUserFromTextFields());
+            txtFullNameValidate.setText("");
+            txtPasswordValidate.setText("");
+            User u = packUserFromTextFields();
+            if(u.getPassword().equals("") || u.getPassword()==null){
+                txtPasswordValidate.setText("vui lòng nhập mật khẩu!");
+            }else if(u.getFullName().equals("") || u.getFullName()==null){
+                txtFullNameValidate.setText("vui lòng nhập họ và tên!");
+            }else{
+                clientProcess.signUp(u);
+            }
+            
         });
         
         btnSignIn.addActionListener((e) -> {
@@ -42,6 +52,7 @@ public class SignUpFrm extends javax.swing.JFrame {
             user.setFullName(txtFullName.getText());
             user.setPhoneNo(txtPhoneNo.getText());
             user.setEmail(txtEmail.getText());
+            
             return user;
         }
 
@@ -67,6 +78,8 @@ public class SignUpFrm extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         txtFullName = new javax.swing.JTextField();
         txtPhoneNo = new javax.swing.JTextField();
+        txtPasswordValidate = new javax.swing.JLabel();
+        txtFullNameValidate = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,6 +104,10 @@ public class SignUpFrm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,21 +117,20 @@ public class SignUpFrm extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
                 .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtUserName)
-                    .addComponent(txtPassword)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSignUp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                        .addComponent(btnSignIn))
-                    .addComponent(txtFullName)
-                    .addComponent(txtPhoneNo))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtUserName)
+                        .addComponent(txtPassword)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnSignUp)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                            .addComponent(btnSignIn))
+                        .addComponent(txtFullName)
+                        .addComponent(txtPhoneNo))
+                    .addComponent(txtPasswordValidate, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFullNameValidate, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(170, 170, 170))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,19 +145,23 @@ public class SignUpFrm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                .addGap(8, 8, 8)
+                .addComponent(txtPasswordValidate)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtFullNameValidate)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSignUp)
                     .addComponent(btnSignIn))
@@ -172,7 +192,9 @@ public class SignUpFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullName;
+    private javax.swing.JLabel txtFullNameValidate;
     private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JLabel txtPasswordValidate;
     private javax.swing.JTextField txtPhoneNo;
     private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
