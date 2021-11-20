@@ -1,15 +1,15 @@
 package service;
 
-import Model.Message;
-import Model.User;
-import Model.Room;
-import Model.UserInARoom;
-import UI.SearchUserForSingleChatFrm;
-import UI.SignInFrm;
-import UI.SignUpFrm;
-import UI.SingleChatFrm;
-import UI.SingleChatRoomsFrm;
-import UI.groupChat.GroupChatFrm;
+import model.Message;
+import model.User;
+import model.Room;
+import model.UserInARoom;
+import views.SearchUserForSingleChatFrm;
+import views.SignInFrm;
+import views.SignUpFrm;
+import views.SingleChatFrm;
+import views.SingleChatRoomsFrm;
+import views.groupChat.GroupChatFrm;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

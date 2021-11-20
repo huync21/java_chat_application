@@ -5,13 +5,13 @@
  */
 package service;
 
-import Model.Message;
-import Model.Room;
-import Model.User;
-import Model.UserInARoom;
-import databaseAcess.MessageDAO;
-import databaseAcess.RoomDAO;
-import databaseAcess.UserDAO;
+import model.Message;
+import model.Room;
+import model.User;
+import model.UserInARoom;
+import dao.MessageDAO;
+import dao.RoomDAO;
+import dao.UserDAO;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -77,11 +77,11 @@ public class ClientHandler implements Runnable {
                                 responsePackage.setStatusMessage("OK");
                             } else {
                                 responsePackage.setData(new User());
-                                responsePackage.setStatusMessage("Some thing wrong with database access");
+                                responsePackage.setStatusMessage("Có lỗi truy cập database");
                             }
                         } else {// Nếu bị trùng thì gửi lại message và 1 object user với giá trị null
                             responsePackage.setData(new User());
-                            responsePackage.setStatusMessage("This user name has already signed up, please choose another user name");
+                            responsePackage.setStatusMessage("Tài khoản này đã có người sử dụng, vui lòng sử dụng tên đăng nhập khác");
                         }
                         oos.writeObject(responsePackage);
                         oos.flush();
@@ -93,13 +93,13 @@ public class ClientHandler implements Runnable {
                         if (userToReturnToClient != null) {
                             ServerProcess.listClientHandler.add(this);
 
-                            System.out.println("User " + userToReturnToClient.getUserName() + " has sign in");
+                            System.out.println("User " + userToReturnToClient.getUserName() + " đã đăng nhập");
                             this.user = userToReturnToClient; //gán user trả về cho property user của ClientHandler
                             responsePackage.setData(userToReturnToClient);
                             responsePackage.setStatusMessage("OK");
                         } else {
                             responsePackage.setData(new User());
-                            responsePackage.setStatusMessage("Nhap sai ten dang nhap hoacj mat khau");
+                            responsePackage.setStatusMessage("Nhập sai tên đăng nhập hoặc mật khẩu");
                         }
                         oos.writeObject(responsePackage);
                         oos.flush();
@@ -202,13 +202,29 @@ public class ClientHandler implements Runnable {
                         oos.writeObject(responsePackage);
                         oos.flush();
                         break;
+                    case DataPackage.GET_EXISTED_ROOM:
+                        ArrayList<User> listUser = (ArrayList<User>) dataPackage.getData();
+                        User user1 = listUser.get(0);
+                        User user2 = listUser.get(1);
+                        Room existedSingleChatRoom = new RoomDAO().getExistedSingleChatRoom(user1,user2);
+                        responsePackage.setOperation(DataPackage.GET_EXISTED_ROOM);
+                        responsePackage.setData(existedSingleChatRoom);
+                        oos.writeObject(responsePackage);
+                        break;
+                    case DataPackage.GET_USER_BY_NAME:
+                        String keyWord = (String) dataPackage.getData();
+                        ArrayList<User> listUsersByName = new UserDAO().getUsersByName(keyWord,this.getUser());
+                        responsePackage.setData(listUsersByName);
+                        responsePackage.setOperation(DataPackage.GET_USER_BY_NAME);
+                        oos.writeObject(responsePackage);
+                        break;
                     default:
                         break;
 //
                 }
 
             } catch (SocketException ex) {// Nếu socket bị đóng từ phía client thì sẽ nhảy vào đoạn code này
-                System.out.println("User: " + user.getUserName() + " has left!");
+                System.out.println("User: " + user.getUserName() + " đã thoát!");
                 new UserDAO().setUserOffline(user); // Nếu vậy thì cập nhật tình trạng là offline cho user đó trong db 
 
                 // Cập nhật tình trạng offline trên UI của các máy khách đang bấm vào màn hình chat với user này
@@ -255,7 +271,7 @@ public class ClientHandler implements Runnable {
                 socket.close();
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            
         }
 
     }
