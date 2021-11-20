@@ -218,6 +218,15 @@ public class ClientHandler implements Runnable {
                         responsePackage.setOperation(DataPackage.GET_USER_BY_NAME);
                         oos.writeObject(responsePackage);
                         break;
+                    case DataPackage.GET_GROUP_CHAT_ROOMS:
+                           responsePackage.setOperation(DataPackage.GET_GROUP_CHAT_ROOMS);
+                        int uId = (Integer) dataPackage.getData();
+                        ArrayList<Room> listGroupChatRooms = new RoomDAO().getGroupChatRooms(uId);
+                        responsePackage.setData(listGroupChatRooms);
+                        responsePackage.setStatusMessage("OK");
+                        oos.writeObject(responsePackage);
+                        oos.flush();
+                        break;
                     default:
                         break;
 //

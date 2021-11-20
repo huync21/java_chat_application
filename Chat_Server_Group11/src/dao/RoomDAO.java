@@ -102,6 +102,7 @@ public class RoomDAO extends DAO {
                     user.setId(rs1.getInt(1));
                     user.setUserName(rs1.getString(2));
                     user.setFullName(rs1.getString(3));
+                    
 //                    user.setOnlineStatus(rs1.getInt(4));
 
                     int isOnline = 0;
@@ -113,7 +114,7 @@ public class RoomDAO extends DAO {
                     }
 
                     user.setOnlineStatus(isOnline);
-                    userInARoom.setId(rs1.getInt("tblUserInARoomId"));
+                    userInARoom.setId(rs1.getInt(5));
                     userInARoom.setUser(user);
                     room.getListUserInARoom().add(userInARoom);
                 }

@@ -26,6 +26,7 @@ public class DataPackage implements Serializable{
     public static final int CREATE_ROOM = 11;
     public static final int GET_EXISTED_ROOM = 12;
     public static final int GET_USER_BY_NAME = 13;
+        public static final int GET_GROUP_CHAT_ROOMS = 14;
     private int operation;
     private Object data;
     private String statusMessage;

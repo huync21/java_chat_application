@@ -16,6 +16,7 @@ public class DataPackage implements Serializable{
     public static final int LOGIN = 1;
     public static final int SIGNUP = 2;
     public static final int GET_SINGLE_CHAT_ROOMS = 3;
+    
     public static final int GET_MESSAGES_FROM_DB = 4;
     public static final int SET_CURRENT_ROOM = 5;
     public static final int SEND_MESSAGE = 6; 
@@ -26,6 +27,7 @@ public class DataPackage implements Serializable{
     public static final int CREATE_ROOM = 11;
     public static final int GET_EXISTED_ROOM = 12;
     public static final int GET_USER_BY_NAME = 13;
+    public static final int GET_GROUP_CHAT_ROOMS = 14;
     private int operation;
     private Object data;
     private String statusMessage;

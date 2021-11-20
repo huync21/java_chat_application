@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import views.SearchUserForSingleChatFrm;
 
 /**
  *
@@ -26,14 +27,16 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
      * Creates new form GroupChatRoomsFrm
      */
     private JFrame mainFrame = this;
-    private ArrayList<Room> listGroupChatRooms;
-    private ClientProcess clientProcess;
+    private ArrayList<Room> listGroupChatRooms = new ArrayList<>();
+    private ClientProcess clientProcess = null;
+    
     public GroupChatRoomsFrm(ClientProcess clientProcess) {
         initComponents();
-        this.clientProcess = clientProcess;
+     this.clientProcess = clientProcess;
+      this.clientProcess.setCurrentFrame(this);
+   
         int userId = clientProcess.getUser().getId();
-        listGroupChatRooms = clientProcess.getGroupChatRooms(userId);
-        
+        clientProcess.getGroupChatRooms(userId);
         
         String[][] data = new String[listGroupChatRooms.size()][2];
         String[] columnNames = {"RoomId","RoomName"};
@@ -56,8 +59,7 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
         tblGroupChat.setModel(dtm);
     }
 
-    private GroupChatRoomsFrm() {
-    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,7 +139,47 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+        public void receiveRoomsAndDisplayData(ArrayList<Room> listRoom){
+        listGroupChatRooms = listRoom;
+        // hien thi
+       String[][] data = new String[listGroupChatRooms.size()][2];
+        String[] columnNames = {"RoomId","RoomName"};
+        for(int i=0;i<listGroupChatRooms.size();i++){
+            Room room = listGroupChatRooms.get(i);
+            data[i][0] = room.getId()+"";
+            
+//            // lay ra ten cua user con lai trong phong
+//            User currenUser = clientProcess.getUser();
+//            User theRestUserInTheRoom = new User();
+//            ArrayList<UserInARoom> listUsersInSingleChatRoom = room.getListUserInARoom();
+//            for(UserInARoom u : listUsersInSingleChatRoom){
+//                if(u.getUser().getId() != currenUser.getId()) theRestUserInTheRoom = u.getUser();
+//            }
+            data[i][1] = listGroupChatRooms.get(i).getName();
+//            data[i][2] = theRestUserInTheRoom.getFullName();
+//            data[i][3] = theRestUserInTheRoom.getOnlineStatus()+"";
+        }
+        DefaultTableModel dtm = new DefaultTableModel(data, columnNames);
+        tblGroupChat.setModel(dtm);
+        
+        tblGroupChat.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int column = tblGroupChat.getColumnModel().
+                        getColumnIndexAtX(e.getX()); // 
+                int row = e.getY()/tblGroupChat.getRowHeight(); 
+ 
+                if (row < tblGroupChat.getRowCount() && row >= 0 && 
+                            column < tblGroupChat.getColumnCount() && column >= 0) {
+                   Room room = listGroupChatRooms.get(row);
+                   // set room cho tien trinh clientHandler
+                   clientProcess.setRoom(room);
+                   new GroupChatFrm(clientProcess).setVisible(true);
+                   mainFrame.dispose();
+                }
+            }
+        });
+    }
     private void tblGroupChatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGroupChatMouseClicked
         // TODO add your handling code here:
          int column = tblGroupChat.getColumnModel().
@@ -162,37 +204,7 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GroupChatRoomsFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GroupChatRoomsFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GroupChatRoomsFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GroupChatRoomsFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GroupChatRoomsFrm().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;

@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import views.SingleChatFrm;
 
 /**
  *
@@ -33,21 +34,10 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
         initComponents();
         
         this.clientProcess = clientProcess;
-        
-        listUsers = clientProcess.getAllUsers(clientProcess.getUser().getId());
-        
+        clientProcess.setCurrentFrame(mainFrame);
+        clientProcess.getAllUsers();
         // hien thi
-        String[][] data = new String[listUsers.size()][4];
-        String[] columnNames = {"id","user name","full name","online status"};
-        for(int i=0;i<listUsers.size();i++){
-            User user = listUsers.get(i);
-            data[i][0] = user.getId()+"";
-            data[i][1] = user.getUserName();
-            data[i][2] = user.getFullName();
-            data[i][3] = user.getOnlineStatus()+"";
-        }
-        DefaultTableModel dtm = new DefaultTableModel(data, columnNames);
-        tblUsers.setModel(dtm);
+        
         
         
     }
@@ -188,7 +178,22 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
     private void tblUsersAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblUsersAncestorAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_tblUsersAncestorAdded
+        public void receiveAllUsersAndDisplay(ArrayList<User> listUsers) {
+        this.listUsers = listUsers;
+        // hien thi
+            String[][] data = new String[listUsers.size()][4];
+        String[] columnNames = {"id","user name","full name","online status"};
+        for(int i=0;i<listUsers.size();i++){
+            User user = listUsers.get(i);
+            data[i][0] = user.getId()+"";
+            data[i][1] = user.getUserName();
+            data[i][2] = user.getFullName();
+            data[i][3] = user.getOnlineStatus()+"";
+        }
+        DefaultTableModel dtm = new DefaultTableModel(data, columnNames);
+        tblUsers.setModel(dtm);
 
+    }
     private void tblUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsersMouseClicked
         // TODO add your handling code here:
         int column = tblUsers.getColumnModel().
@@ -212,7 +217,12 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
                     tblAddedUsers.setModel(dtm);
                }
     }//GEN-LAST:event_tblUsersMouseClicked
-
+   public void receiveRoomAndGoChatInThatRoom(Room room) {
+        // set room cho tien trinh clientHandler
+        clientProcess.setRoom(room);
+        new GroupChatFrm(clientProcess).setVisible(true);
+        mainFrame.dispose();
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Room room = new Room();
@@ -223,19 +233,11 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
             userInARoom.setUser(listUserSelectGroup.get(i));
             listUserInAroom.add(userInARoom);
         }
+        UserInARoom me = new UserInARoom();
+        me.setUser(clientProcess.getUser());
+        listUserInAroom.add(me);
         room.setListUserInARoom(listUserInAroom);
-        
-        try {
-            if(clientProcess.creatRoom(room) != null){
-                clientProcess.setRoom(room);
-                new GroupChatFrm(clientProcess).setVisible(true);
-            }
-            else{
-                JOptionPane.showMessageDialog(rootPane, "Error Create Room");
-            }
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Error Create Room");
-        }
+        clientProcess.creatRoom(room);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

@@ -180,9 +180,6 @@
     </Container>
     <Component class="javax.swing.JLabel" name="emojiWow">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\wow.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
       <Events>
@@ -192,9 +189,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="emojiCool">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\cool.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="jLabel2"/>
       </Properties>
       <Events>
@@ -203,11 +197,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiPacman">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\PACMAN.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPacmanMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPacmanMouseEntered"/>
@@ -219,77 +208,42 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiConfuse">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\confuse.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiConfuseMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiConfuseMouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiCheer">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\cheer.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiCheerMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiCheerMouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiHeart">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\heart.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiHeartMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiHeartMouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiBigSmile">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\bigSmile.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiBigSmileMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiBigSmileMouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiReverseSmile">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\reverseSmile.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiReverseSmileMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiReverseSmileMouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiSad">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\sad.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiSadMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiSadMouseEntered"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emojiPenguin">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\LENOVO\Desktop\nhom 11 lap trinh mang\java_chat_application\Chat_Client_Group11\penguin.png"/>
-        </Property>
-      </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPenguinMouseClicked"/>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emojiPenguinMouseEntered"/>

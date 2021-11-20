@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import views.groupChat.CreateNewGroupFrm;
+import views.groupChat.GroupChatRoomsFrm;
 
 /**
  *
@@ -102,6 +104,13 @@ public class ClientProcess {
                                         singleChatFrm.updateChatScreen(message);
                                     }
                                 }
+                                if(currentFrame instanceof GroupChatFrm){
+                                    GroupChatFrm groupChatFrm = (GroupChatFrm) currentFrame;
+                                    listMessagesInARoom = (ArrayList<Message>) receivePackage.getData();
+                                     for (Message message : listMessagesInARoom) {
+                                        groupChatFrm.updateChatScreen(message);
+                                    }
+                                }
                                 break;
                             case DataPackage.RECEIVE_MESSAGE:
                                 if (currentFrame instanceof SingleChatFrm) {
@@ -109,6 +118,12 @@ public class ClientProcess {
                                     Message message = (Message) receivePackage.getData();
                                     listMessagesInARoom.add(message);
                                     singleChatFrm.updateChatScreen(message);
+                                }
+                                if(currentFrame instanceof GroupChatFrm){
+                                    GroupChatFrm groupChatFrm =(GroupChatFrm) currentFrame;
+                                    Message message = (Message) receivePackage.getData();
+                                    listMessagesInARoom.add(message);
+                                    groupChatFrm.updateChatScreen(message);
                                 }
                                 break;
                             case DataPackage.RECEIVE_ONLINE_STATUS_BROADCAST:
@@ -138,6 +153,11 @@ public class ClientProcess {
                                     ArrayList<User> listAllUsers = (ArrayList<User>) receivePackage.getData();
                                     searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listAllUsers);
                                 }
+                                if(currentFrame instanceof CreateNewGroupFrm){
+                                     CreateNewGroupFrm createNewGroupFrm = (CreateNewGroupFrm) currentFrame;
+                                    ArrayList<User> listAllUsers = (ArrayList<User>) receivePackage.getData();
+                                    createNewGroupFrm.receiveAllUsersAndDisplay(listAllUsers);
+                                }
                                 break;
                             // xem phòng chat đơn giữa 2 người đã tồn tại chưa, nếu chưa thì tạo mới, nếu rồi thì lấy về thông tin room luôn
                             case DataPackage.GET_EXISTED_ROOM:
@@ -157,6 +177,12 @@ public class ClientProcess {
                                     Room receiveRoom = (Room) receivePackage.getData();
                                     searchUserForSingleChatFrm.receiveRoomAndGoChatInThatRoom(receiveRoom);
                                 }
+                                if(currentFrame instanceof CreateNewGroupFrm){
+                                    CreateNewGroupFrm createNewGroupFrm = (CreateNewGroupFrm) currentFrame;
+                                    Room receiveRoom = (Room) receivePackage.getData();
+                  
+                                    createNewGroupFrm.receiveRoomAndGoChatInThatRoom(receiveRoom);
+                                }
                                 break;
                             case DataPackage.GET_USER_BY_NAME:
                                 if (currentFrame instanceof SearchUserForSingleChatFrm) {
@@ -165,6 +191,13 @@ public class ClientProcess {
                                     searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listUsers);
                                 }
                                 break;
+                            case DataPackage.GET_GROUP_CHAT_ROOMS: 
+                                  if (currentFrame instanceof GroupChatRoomsFrm) {
+                                    GroupChatRoomsFrm groupChatRoomsFrm = (GroupChatRoomsFrm) currentFrame;
+                                    ArrayList<Room> listGroupChatRooms = (ArrayList<Room>) receivePackage.getData();
+                                    groupChatRoomsFrm.receiveRoomsAndDisplayData(listGroupChatRooms);
+                                }
+                                  break;
                             default:
                                 break;
                         }
@@ -205,6 +238,14 @@ public class ClientProcess {
             ex.printStackTrace();
         }
     }
+        public void getGroupChatRooms(int userId) {
+        try {
+            oos.writeObject(new DataPackage(DataPackage.GET_GROUP_CHAT_ROOMS, userId));
+            oos.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     //gui request lay ra tat ca user de chat don tru user nay
     public void getAllUsers() {
@@ -236,42 +277,19 @@ public class ClientProcess {
 
     }
 
-    public void creatRoom(Room room) {
+    public boolean creatRoom(Room room) {
         try {
             oos.writeObject(new DataPackage(DataPackage.CREATE_ROOM, room));
             oos.flush();
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
+           return false;
         }
 
     }
 
-    public ArrayList<Room> getGroupChatRooms(int userId) {
-        ArrayList<Room> listRooms = new ArrayList<>();
 
-        try {
-            //header
-            dos.writeUTF("get group chat rooms");
-            dos.flush();
-
-            //body
-            dos.writeInt(userId);
-            dos.flush();
-
-            //get back result
-            Room r = new Room();
-            while ((r = (Room) ois.readObject()) != null) {
-                listRooms.add(r);
-            }
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-
-        return listRooms;
-    }
 
     public void sendOnlineStatus() {
         try {

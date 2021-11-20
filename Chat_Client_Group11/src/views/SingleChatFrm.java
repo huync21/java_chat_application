@@ -80,7 +80,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
             labelStatus.setForeground(Color.GREEN);
         } else {
             labelStatus.setText("Offline");
-            labelStatus.setForeground(Color.red);
+            labelStatus.setForeground(Color.RED);
         }
 
         //in ra tên user hiện tại
