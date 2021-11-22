@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import model.Friend;
+import views.friend.FriendFrm;
 
 /**
  *
@@ -39,6 +41,7 @@ public class ClientProcess {
     private GroupChatFrm groupRoomFrame;
     private Thread currentThread;
     private JFrame currentFrame;
+    private Friend friend;
 
     public ClientProcess(Socket socket) {
         try {
@@ -164,6 +167,14 @@ public class ClientProcess {
                                     ArrayList<User> listUsers = (ArrayList<User>) receivePackage.getData();
                                     searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listUsers);
                                 }
+//                          Modol friend
+                            case DataPackage.GeT_LIST_FRIEND:
+                                if(currentFrame instanceof FriendFrm){
+                                    FriendFrm friendFrm = (FriendFrm) currentFrame;
+                                    ArrayList<Friend> listFriend = (ArrayList<Friend>) receivePackage.getData();
+                                    friendFrm.receiveListFriend(listFriend);
+                                }
+                            
                                 break;
                             default:
                                 break;
@@ -380,5 +391,25 @@ public class ClientProcess {
             ex.printStackTrace();
         }
     }
-
+    
+    
+//    Modul friend
+    
+    public void getListFriend(User user) { // Lấy tất cả thông tin friend và request friend của 1 user
+        try {
+            oos.writeObject(new DataPackage(DataPackage.GeT_LIST_FRIEND, this.user));
+            oos.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void deleteFriend(Friend friend){
+        try {
+            oos.writeObject(new DataPackage(DataPackage.GeT_LIST_FRIEND, this.friend));
+            oos.flush();
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
+    }
 }

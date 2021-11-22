@@ -26,6 +26,8 @@ public class DataPackage implements Serializable{
     public static final int CREATE_ROOM = 11;
     public static final int GET_EXISTED_ROOM = 12;
     public static final int GET_USER_BY_NAME = 13;
+    public static final int GeT_LIST_FRIEND = 14;
+    public static final int DELETE_FRIEND = 15;
     private int operation;
     private Object data;
     private String statusMessage;

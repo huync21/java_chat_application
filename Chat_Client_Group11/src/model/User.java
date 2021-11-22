@@ -21,6 +21,10 @@ public class User implements Serializable{
     private String phoneNo;
     private int onlineStatus;
 
+    public User(int id) {
+        this.id = id;
+    }
+    
     public int getOnlineStatus() {
         return onlineStatus;
     }

@@ -5,6 +5,7 @@
  */
 package service;
 
+import dao.FriendDAO;
 import model.Message;
 import model.Room;
 import model.User;
@@ -22,6 +23,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Friend;
 
 /**
  *
@@ -218,6 +220,21 @@ public class ClientHandler implements Runnable {
                         responsePackage.setOperation(DataPackage.GET_USER_BY_NAME);
                         oos.writeObject(responsePackage);
                         break;
+                        
+//                  Modul Friend   
+                    case DataPackage.GeT_LIST_FRIEND:   // Lấy tất cả thông tin friend và request friend của 1 user
+                        User user = (User) dataPackage.getData();
+                        ArrayList<Friend> listFriend = new FriendDAO().getAllInfoFriend(user);
+                        responsePackage.setData(listFriend);
+                        responsePackage.setOperation(DataPackage.GeT_LIST_FRIEND);
+                        oos.writeObject(responsePackage);
+                    case DataPackage.DELETE_FRIEND:
+                        Friend friend = (Friend) dataPackage.getData();
+                        new FriendDAO().deleteFriend(friend);
+                        responsePackage.setOperation(DataPackage.DELETE_FRIEND);
+                        responsePackage.setStatusMessage("OK");
+                        oos.writeObject(responsePackage);
+                        oos.flush();
                     default:
                         break;
 //

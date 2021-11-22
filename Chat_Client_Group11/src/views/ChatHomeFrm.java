@@ -9,6 +9,7 @@ import service.ClientProcess;
 import views.groupChat.GroupChatFrm;
 import views.groupChat.GroupChatRoomsFrm;
 import javax.swing.JFrame;
+import views.friend.FriendFrm;
 
 /**
  *
@@ -33,6 +34,10 @@ public class ChatHomeFrm extends javax.swing.JFrame {
            new SingleChatRoomsFrm(clientProcess).setVisible(true);
            this.dispose();
         });
+        btnFriend.addActionListener((e) -> {
+           new FriendFrm(clientProcess).setVisible(true);
+           this.dispose();
+        });
     }
 
     /**
@@ -48,6 +53,7 @@ public class ChatHomeFrm extends javax.swing.JFrame {
         btnGroupChat = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtUserFullName = new javax.swing.JLabel();
+        btnFriend = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,6 +71,8 @@ public class ChatHomeFrm extends javax.swing.JFrame {
 
         txtUserFullName.setText("Xin chào, @userFullName");
 
+        btnFriend.setText("Friend");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,16 +81,17 @@ public class ChatHomeFrm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(201, 201, 201)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGroupChat)
-                            .addComponent(btnSingleChat)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnGroupChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSingleChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnFriend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(183, 183, 183)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(txtUserFullName)))
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(212, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,7 +104,9 @@ public class ChatHomeFrm extends javax.swing.JFrame {
                 .addComponent(btnSingleChat)
                 .addGap(53, 53, 53)
                 .addComponent(btnGroupChat)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(btnFriend)
+                .addGap(29, 29, 29))
         );
 
         pack();
@@ -110,6 +121,7 @@ public class ChatHomeFrm extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFriend;
     private javax.swing.JButton btnGroupChat;
     private javax.swing.JButton btnSingleChat;
     private javax.swing.JLabel jLabel1;
