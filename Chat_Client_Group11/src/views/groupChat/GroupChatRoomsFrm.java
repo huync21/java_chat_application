@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import views.ChatHomeFrm;
 import views.SearchUserForSingleChatFrm;
 
 /**
@@ -106,6 +107,11 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblGroupChat);
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,23 +168,7 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
         DefaultTableModel dtm = new DefaultTableModel(data, columnNames);
         tblGroupChat.setModel(dtm);
         
-        tblGroupChat.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int column = tblGroupChat.getColumnModel().
-                        getColumnIndexAtX(e.getX()); // 
-                int row = e.getY()/tblGroupChat.getRowHeight(); 
- 
-                if (row < tblGroupChat.getRowCount() && row >= 0 && 
-                            column < tblGroupChat.getColumnCount() && column >= 0) {
-                   Room room = listGroupChatRooms.get(row);
-                   // set room cho tien trinh clientHandler
-                   clientProcess.setRoom(room);
-                   new GroupChatFrm(clientProcess).setVisible(true);
-                   mainFrame.dispose();
-                }
-            }
-        });
+        
     }
     private void tblGroupChatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGroupChatMouseClicked
         // TODO add your handling code here:
@@ -199,7 +189,14 @@ public class GroupChatRoomsFrm extends javax.swing.JFrame {
     private void btnTaoPhongMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoPhongMoiActionPerformed
         // TODO add your handling code here:
         new CreateNewGroupFrm(clientProcess).setVisible(true);
+        mainFrame.dispose();
     }//GEN-LAST:event_btnTaoPhongMoiActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        new ChatHomeFrm(clientProcess).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments

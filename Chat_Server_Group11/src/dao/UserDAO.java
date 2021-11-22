@@ -162,4 +162,35 @@ public class UserDAO extends DAO{
         }
         return result;
     }
+    
+    public User getUserByID(int id){
+        User result = null;
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM tblUser WHERE id = ?");
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                result = new User();
+                result.setId(rs.getInt("id"));
+                result.setUserName(rs.getString("userName"));
+                result.setFullName(rs.getString("fullName"));
+                result.setEmail(rs.getString("email"));
+                result.setPhoneNo(rs.getString("phoneNo"));
+                
+                int userId = result.getId();
+                int isOnline = 0;
+                for(ClientHandler ch: ServerProcess.listClientHandler){
+                    if(ch.getUser().getId() == userId){
+                        isOnline = 1;
+                        break;
+                    }
+                }
+                result.setOnlineStatus(isOnline);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
 }

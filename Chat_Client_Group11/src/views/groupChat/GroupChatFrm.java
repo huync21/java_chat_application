@@ -50,11 +50,6 @@ public class GroupChatFrm extends javax.swing.JFrame {
         System.out.println(clientProcess.getRoom().getName());
         
         
-        btnBack.addActionListener((e) -> {
-            new SingleChatRoomsFrm(clientProcess).setVisible(true);
-            this.dispose();
-        });
-        
         labelTheRestUserName.setText(clientProcess.getRoom().getName());
         // Lấy ra user còn lại trong phòng
         User currentUser = clientProcess.getUser();
