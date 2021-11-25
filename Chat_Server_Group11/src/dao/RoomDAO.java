@@ -183,9 +183,8 @@ public class RoomDAO extends DAO {
         try {
             String getRoomSQL = "SELECT tblroom.id as roomId,tbluserinaroom.id as userInARoomId, tblUser.id as userId,tblUser.userName,tblUser.fullName,tblUser.email,tblUser.phoneNo \n"
                     + "FROM tblroom\n"
-                    + ",(SELECT id,tblUserId,tblRoomId FROM tblUserInARoom WHERE tblUserId = ? OR tblUserId = ? GROUP BY tblRoomId HAVING COUNT(tblRoomId) = 2) as A\n"
                     + ",tbluserinaroom,tbluser \n"
-                    + "WHERE tblroom.id = A.tblRoomId AND tblroom.id = tbluserinaroom.tblRoomId AND tbluserinaroom.tblUserId = tbluser.id";
+                    + "WHERE tblroom.isSingleChat = 1 AND tblroom.id = tbluserinaroom.tblRoomId AND tbluserinaroom.tblUserId = tbluser.id AND (tbluser.id = ? OR tbluser.id = ?) ";
 
             PreparedStatement ps = con.prepareStatement(getRoomSQL);
             ps.setInt(1, user1.getId());
