@@ -16,6 +16,15 @@ public class Room implements Serializable{
     final long serialVersionUID = 1L;
     private int id;
     private String name;
+    private int isSingleChat;
+
+    public int getIsSingleChat() {
+        return isSingleChat;
+    }
+
+    public void setIsSingleChat(int isSingleChat) {
+        this.isSingleChat = isSingleChat;
+    }
     private ArrayList<UserInARoom> listUserInARoom = new ArrayList<>();
 
     public ArrayList<UserInARoom> getListUserInARoom() {

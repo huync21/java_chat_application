@@ -227,6 +227,7 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
         Room room = new Room();
         room.setName(txtTenPhong.getText());
+        room.setIsSingleChat(0);
         ArrayList<UserInARoom> listUserInAroom = new ArrayList<>();
         for(int i=0; i<listUserSelectGroup.size(); i++){
             UserInARoom userInARoom = new UserInARoom();

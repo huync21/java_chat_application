@@ -83,6 +83,7 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
 
     public void createRoom() {
         Room room = new Room();
+        room.setIsSingleChat(1);
         ArrayList<UserInARoom> listUserInARooms = new ArrayList<>();
         UserInARoom userInARoom1 = new UserInARoom();
         userInARoom1.setUser(clientProcess.getUser());

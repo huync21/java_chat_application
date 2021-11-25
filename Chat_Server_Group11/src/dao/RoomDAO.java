@@ -129,7 +129,7 @@ public class RoomDAO extends DAO {
     }
 
     public Room createRoom(Room room) {
-        String insertRoom = "INSERT INTO tblRoom(name) values(?)";
+        String insertRoom = "INSERT INTO tblRoom(name,isSingleChat) values(?,?)";
         String insertUserInRoom = "INSERT INTO tbluserinaroom(tblUserId, tblRoomId) values(?,?)";
         boolean result = true;
         try {
@@ -137,6 +137,7 @@ public class RoomDAO extends DAO {
             PreparedStatement ps = con.prepareStatement(insertRoom,
                     Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, room.getName());
+            ps.setInt(2, room.getIsSingleChat());
             ps.executeUpdate();
 
             ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -180,52 +181,26 @@ public class RoomDAO extends DAO {
 
     public Room getExistedSingleChatRoom(User user1, User user2) {
         Room result = null;
-        try {
-            String getRoomSQL = "SELECT tblroom.id as roomId,tbluserinaroom.id as userInARoomId, tblUser.id as userId,tblUser.userName,tblUser.fullName,tblUser.email,tblUser.phoneNo \n"
-                    + "FROM tblroom\n"
-                    + ",tbluserinaroom,tbluser \n"
-                    + "WHERE tblroom.isSingleChat = 1 AND tblroom.id = tbluserinaroom.tblRoomId AND tbluserinaroom.tblUserId = tbluser.id AND (tbluser.id = ? OR tbluser.id = ?) ";
-
-            PreparedStatement ps = con.prepareStatement(getRoomSQL);
-            ps.setInt(1, user1.getId());
-            ps.setInt(2, user2.getId());
-            ResultSet rs = ps.executeQuery();
-            result = new Room();
-            ArrayList<UserInARoom> listUserInARooms = new ArrayList<>();
-            UserInARoom user1st = new UserInARoom();
-            user1st.setUser(new User());
-            UserInARoom user2nd = new UserInARoom();
-            user2nd.setUser(new User());
-
-            listUserInARooms.add(user1st);
-            listUserInARooms.add(user2nd);
-            result.setListUserInARoom(listUserInARooms);
-            int count = 0;
-            while (rs.next()) {
-
-                result.setId(rs.getInt("roomId"));
-                UserInARoom userInARoom = result.getListUserInARoom().get(count);
-                userInARoom.setId(rs.getInt("userInARoomId"));
-                User u = result.getListUserInARoom().get(count).getUser();
-                u.setId(rs.getInt("userId"));
-                u.setUserName(rs.getString("userName"));
-                u.setFullName(rs.getString("fullName"));
-                u.setEmail(rs.getString("email"));
-                u.setPhoneNo(rs.getString("phoneNo"));
-                userInARoom.setUser(u);
-                result.getListUserInARoom().add(userInARoom);
-                count++;
-
+        ArrayList<Room> listRoomOfUser1 = new RoomDAO().getSingleChatRooms(user1.getId());
+        
+        //Lay ra room chat cua 2 nguoi
+        for(Room r: listRoomOfUser1){
+            //Lay ra user con lai
+            User u2 = new User();
+            //Kiem tra xem nguoi con lai trong phong co phai user2 ko, neu co thi lay ra phong gan vao result
+            for(UserInARoom uiar: r.getListUserInARoom()){
+                if(uiar.getUser().getId() == user2.getId()){
+                    result = r;
+                    u2 = uiar.getUser();
+                    break;
+                }
             }
-            if (count != 2 || result.getId() == 0) {
-                return null;
+            // Lay ra duoc phong roi thi break vong for thoi
+            if(u2.getId() == user2.getId()){
+                break;
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
+            
         }
-
         return result;
     }
-
 }
