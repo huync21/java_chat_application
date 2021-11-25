@@ -5,6 +5,9 @@
  */
 package views;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import model.Room;
 import model.User;
 import model.UserInARoom;
@@ -12,6 +15,7 @@ import service.ClientProcess;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,6 +34,14 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
     public SingleChatRoomsFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
+        
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Danh sách phòng chat đơn của "+clientProcess.getUser().getUserName());
+        singleChatImage.setIcon(new ImageIcon("singleChat.png"));
+        
         clientProcess.setCurrentFrame(this);
         // lay cac single chat rooms ung voi nguoi dung tren server ve
         int userId = clientProcess.getUser().getId();
@@ -101,6 +113,7 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
         tblRooms = new javax.swing.JTable();
         btnSearchForUser = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        singleChatImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,13 +162,17 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addGap(97, 97, 97)
-                        .addComponent(jLabel1)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(92, 92, 92)
                         .addComponent(btnSearchForUser))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(57, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(singleChatImage, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,14 +181,16 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack)))
+                            .addComponent(btnBack)
+                            .addComponent(btnSearchForUser)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(btnSearchForUser)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(singleChatImage, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addGap(61, 61, 61))
         );
 
         pack();
@@ -195,6 +214,7 @@ public class SingleChatRoomsFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel singleChatImage;
     private javax.swing.JTable tblRooms;
     // End of variables declaration//GEN-END:variables
 }

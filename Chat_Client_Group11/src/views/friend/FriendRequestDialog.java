@@ -5,6 +5,9 @@
  */
 package views.friend;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import model.User;
 import service.ClientProcess;
 import java.awt.event.MouseAdapter;
@@ -37,6 +40,11 @@ public class FriendRequestDialog extends javax.swing.JDialog {
         clientProcess.setCurrenDialog(this);
         loadTableRequest(this.listFriend);
         
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Lời mời kết bạn");
         
         btnAccept.addActionListener((e)->{
             int r = tblrequest.getSelectedRow();
@@ -143,10 +151,10 @@ protected void loadTableRequest(ArrayList<Friend> list ){
                     .addComponent(btnAccept, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRemove, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
                 .addGap(35, 35, 35))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(206, 206, 206)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(206, 206, 206))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

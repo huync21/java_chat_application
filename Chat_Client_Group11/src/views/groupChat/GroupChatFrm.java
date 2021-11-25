@@ -5,6 +5,8 @@
  */
 package views.groupChat;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import model.Message;
 import model.Room;
 import model.User;
@@ -12,6 +14,7 @@ import model.UserInARoom;
 import service.ClientProcess;
 import views.SingleChatRoomsFrm;
 import java.awt.List;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +48,11 @@ public class GroupChatFrm extends javax.swing.JFrame {
         
         clientProcess.setCurrentFrame(this);
         
-        
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Phòng chat nhóm của "+clientProcess.getUser().getUserName());
         
         System.out.println(clientProcess.getRoom().getName());
         

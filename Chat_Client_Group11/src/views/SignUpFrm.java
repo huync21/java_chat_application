@@ -5,6 +5,9 @@
  */
 package views;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import model.User;
 import service.ClientProcess;
 import javax.swing.JOptionPane;
@@ -36,6 +39,12 @@ public class SignUpFrm extends javax.swing.JFrame {
             }
             
         });
+        
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Đăng ký");
         
         btnSignIn.addActionListener((e) -> {
             new SignInFrm(clientProcess).setVisible(true);
@@ -141,11 +150,11 @@ public class SignUpFrm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
                 .addComponent(txtPasswordValidate)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

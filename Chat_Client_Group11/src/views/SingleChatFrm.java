@@ -12,6 +12,8 @@ import model.UserInARoom;
 import service.ClientProcess;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -55,7 +57,23 @@ public class SingleChatFrm extends javax.swing.JFrame {
         txtChatScreen.setEditable(false);
         txtChatScreen.setContentType("text/html");
         txtChatScreen.setEditorKit(htmlEditorKit);
-        txtChatScreen.setText("<html><body id='body'></body></html>");
+        txtChatScreen.setText("<html><body id='body'><b>                -----Các bạn đã được kết nối với nhau trên app chat của nhóm 11-----</b></body></html>");
+        
+        emojiBigSmile.setIcon(new ImageIcon("bigSmile.png"));
+        emojiCheer.setIcon(new ImageIcon("cheer.png"));
+        emojiConfuse.setIcon(new ImageIcon("confuse.png"));
+        emojiCool.setIcon(new ImageIcon("cool.png"));
+        emojiHeart.setIcon(new ImageIcon("heart.png"));
+        emojiPacman.setIcon(new ImageIcon("PACMAN.png"));
+        emojiPenguin.setIcon(new ImageIcon("penguin.png"));        
+        emojiReverseSmile.setIcon(new ImageIcon("reverseSmile.png"));
+        emojiSad.setIcon(new ImageIcon("sad.png"));
+        emojiWow.setIcon(new ImageIcon("wow.png"));
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Phòng chat đơn của "+clientProcess.getUser().getFullName());
 
         btnBack.addActionListener((e) -> {
             new SingleChatRoomsFrm(clientProcess).setVisible(true);
@@ -84,7 +102,7 @@ public class SingleChatFrm extends javax.swing.JFrame {
         }
 
         //in ra tên user hiện tại
-        txtUser.setText("User: " + clientProcess.getUser().getFullName());
+        txtUser.setText("User: " + clientProcess.getUser().getUserName());
 
         // lay messages cu~ tu database
         clientProcess.getMessagesFromDatabase(currentRoom);
@@ -133,10 +151,14 @@ public class SingleChatFrm extends javax.swing.JFrame {
 //            txtChatScreen.setText(messagesOnTheScreen);
             try {
                 String userText = message.getUserInARoom().getUser().getUserName();
+                String userAndDateText = new String();
                 if(message.getUserInARoom().getUser().getId() == (clientProcess.getUser().getId())){
                     userText = "Bạn";
+                    userAndDateText=  "<b><i style = \"color:green;\">"+userText + " (" + sdf.format(message.getTime()) + ")" + ":</i></b>";
+                }else{
+                    userAndDateText=  "<b><i style = \"color:blue;\">"+userText + " (" + sdf.format(message.getTime()) + ")" + ":</i></b>";
                 };
-                String userAndDateText =  userText + " (" + sdf.format(message.getTime()) + ")" + ":";
+                 
                 HTMLDocument doc = (HTMLDocument) txtChatScreen.getDocument();
                 Element elem = doc.getElement("body");
                 String htmlText = String.format("<p>%s</p>", userAndDateText);
@@ -237,7 +259,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
 
         jScrollPane4.setViewportView(txtChatScreen);
 
-        emojiWow.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\wow.png")); // NOI18N
         emojiWow.setText("jLabel1");
         emojiWow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -248,7 +269,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiCool.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\cool.png")); // NOI18N
         emojiCool.setText("jLabel2");
         emojiCool.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -259,7 +279,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiPacman.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\PACMAN.png")); // NOI18N
         emojiPacman.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiPacmanMouseClicked(evt);
@@ -271,7 +290,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
 
         txtUser.setText("jLabel4");
 
-        emojiConfuse.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\confuse.png")); // NOI18N
         emojiConfuse.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiConfuseMouseClicked(evt);
@@ -281,7 +299,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiCheer.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\cheer.png")); // NOI18N
         emojiCheer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiCheerMouseClicked(evt);
@@ -291,7 +308,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiHeart.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\heart.png")); // NOI18N
         emojiHeart.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiHeartMouseClicked(evt);
@@ -301,7 +317,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiBigSmile.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\bigSmile.png")); // NOI18N
         emojiBigSmile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiBigSmileMouseClicked(evt);
@@ -311,7 +326,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiReverseSmile.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\reverseSmile.png")); // NOI18N
         emojiReverseSmile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiReverseSmileMouseClicked(evt);
@@ -321,7 +335,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiSad.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\sad.png")); // NOI18N
         emojiSad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiSadMouseClicked(evt);
@@ -331,7 +344,6 @@ public class SingleChatFrm extends javax.swing.JFrame {
             }
         });
 
-        emojiPenguin.setIcon(new javax.swing.ImageIcon("C:\\Users\\LENOVO\\Desktop\\nhom 11 lap trinh mang\\java_chat_application\\Chat_Client_Group11\\penguin.png")); // NOI18N
         emojiPenguin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiPenguinMouseClicked(evt);
@@ -421,9 +433,10 @@ public class SingleChatFrm extends javax.swing.JFrame {
                             .addComponent(emojiBigSmile, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(emojiReverseSmile, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(36, 36, 36)
-                        .addComponent(emojiSad, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addComponent(emojiSad, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 174, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtMessage)
                     .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))

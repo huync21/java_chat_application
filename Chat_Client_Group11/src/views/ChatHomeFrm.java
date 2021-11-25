@@ -5,6 +5,10 @@
  */
 package views;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import service.ClientProcess;
 import views.groupChat.GroupChatFrm;
 import views.groupChat.GroupChatRoomsFrm;
@@ -27,6 +31,13 @@ public class ChatHomeFrm extends javax.swing.JFrame {
         
         //gui broadcast trang thai dang nhap
         clientProcess.sendOnlineStatus();
+        
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Trang chủ");
+        homeImage.setIcon(new ImageIcon("home.png"));
         
         txtUserFullName.setText("Xin chào, "+clientProcess.getUser().getFullName()+"!");
         
@@ -54,6 +65,7 @@ public class ChatHomeFrm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtUserFullName = new javax.swing.JLabel();
         btnFriend = new javax.swing.JButton();
+        homeImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,18 +92,22 @@ public class ChatHomeFrm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(201, 201, 201)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnGroupChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSingleChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnFriend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(183, 183, 183)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnFriend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGroupChat, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                            .addComponent(btnSingleChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(txtUserFullName)))
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 101, Short.MAX_VALUE)
+                .addComponent(homeImage, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,13 +116,15 @@ public class ChatHomeFrm extends javax.swing.JFrame {
                 .addComponent(txtUserFullName)
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
+                .addGap(18, 18, 18)
+                .addComponent(homeImage, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(btnSingleChat)
-                .addGap(53, 53, 53)
+                .addGap(18, 18, 18)
                 .addComponent(btnGroupChat)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnFriend)
-                .addGap(29, 29, 29))
+                .addGap(38, 38, 38))
         );
 
         pack();
@@ -124,6 +142,7 @@ public class ChatHomeFrm extends javax.swing.JFrame {
     private javax.swing.JButton btnFriend;
     private javax.swing.JButton btnGroupChat;
     private javax.swing.JButton btnSingleChat;
+    private javax.swing.JLabel homeImage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel txtUserFullName;
     // End of variables declaration//GEN-END:variables

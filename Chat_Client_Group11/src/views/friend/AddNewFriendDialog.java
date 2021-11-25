@@ -5,6 +5,9 @@
  */
 package views.friend;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -40,6 +43,13 @@ public class AddNewFriendDialog extends javax.swing.JDialog {
         this.user = user;
         this.clientProcess = clientProcess;
         this.clientProcess.getListUserAddFriend();
+        
+        
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Thêm mới bạn bè");
         
         
         tblUsers.addMouseListener(new MouseAdapter() {

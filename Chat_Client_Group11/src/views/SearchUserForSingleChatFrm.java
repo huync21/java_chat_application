@@ -5,6 +5,9 @@
  */
 package views;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import model.Room;
 import model.User;
 import model.UserInARoom;
@@ -32,6 +35,13 @@ public class SearchUserForSingleChatFrm extends javax.swing.JFrame {
     public SearchUserForSingleChatFrm(ClientProcess clientProcess) {
         initComponents();
         this.clientProcess = clientProcess;
+        
+        //UI
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.getContentPane().setBackground(Color.getHSBColor(106, 52, 50));
+        setTitle("Tìm user để chat đơn");
+        
         clientProcess.setCurrentFrame(this);
         btnBack.addActionListener((e) -> {
             new SingleChatRoomsFrm(clientProcess).setVisible(true);
