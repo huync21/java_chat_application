@@ -11,6 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Friend;
 import views.ChatHomeFrm;
@@ -43,12 +45,16 @@ public class FriendFrm extends javax.swing.JFrame {
         });
         clientProcess.getListFriend(user);
         
-////       Nút friend request
-//        btnFriendRequest.addActionListener((e) -> {
-//           FriendRequestDialog fr = new FriendRequestDialog(this, true, clientProcess);
-//           fr.setVisible(true);
-//        });
-//
+//       Nút friend request
+        btnFriendRequest.addActionListener((e) -> {
+           FriendRequestDialog fr = new FriendRequestDialog(this, true, clientProcess,this.listFriend,this.user);
+           fr.setVisible(true);
+        });
+//       Nút Add friend
+         btnAddFriend.addActionListener((e) -> {
+           AddNewFriendDialog fr = new AddNewFriendDialog(this, true, clientProcess,this.listFriend,this.user);
+           fr.setVisible(true);
+        });
 //       Lấy thông tin bạn bè từ bảng sang form
         tblFriend.addMouseListener(new MouseAdapter() {
             @Override
@@ -57,35 +63,35 @@ public class FriendFrm extends javax.swing.JFrame {
                 jtfName.setText( listUser.get(r).getFullName() );
                 jtfEmail.setText(listUser.get(r).getEmail());
                 jtfPhone.setText(listUser.get(r).getPhoneNo());
-                
-                // Xóa bạn bè
             }
         });
-//        btnRemove.addActionListener((x) -> {
-//            int r = tblFriend.getSelectedRow();
-//            clientProcess.removeFriend( listFriend.get(r));
-//            listFriend.remove(r);
-//            loadTableFriend(listFriend);
-//        });
+        btnRemove.addActionListener((x) -> {
+            int r = tblFriend.getSelectedRow();
+            clientProcess.deleteFriend(this.listFriend.get(r));
+            this.listFriend.remove(r);
+            loadTableFriend(this.listFriend);
+        });
 
     }
     
     public void receiveListFriend(ArrayList<Friend> list ){
-        ArrayList<User> listU = new ArrayList<>();
-        for(Friend i : list){
-            if(i.getUser1().getId() != user.getId()) listU.add(i.getUser1());
-            else listU.add(i.getUser2());
-             System.out.println(i.getId() + " " + i.getUser1().getFullName()+ " " + i.getUser2().getFullName() + "\n");
-        }
-        this.listUser = listU;
-        loadTableFriend(listU);
+        this.listFriend = list;
+        loadTableFriend(this.listFriend);
     }
     
-    protected void loadTableFriend(ArrayList<User> listFriend){
-        String[][] data = new String[listFriend.size()][4];
+    public void loadTableFriend(ArrayList<Friend> list ){
+        ArrayList<User> listUserDisplay = new ArrayList<>();
+        for(Friend i : list){
+            if(i.getFriendStatus() == 1){
+                if(i.getUser1().getId() != user.getId()) listUserDisplay.add(i.getUser1());
+                else listUserDisplay.add(i.getUser2());
+//                System.out.println(i.getId() + " " + i.getUser1().getFullName()+ " " + i.getUser2().getFullName() + "\n");
+            }
+        }
+        String[][] data = new String[listUserDisplay.size()][4];
         String[] columnNames = {"Full name","Email","Phone","Online status"};
-        for(int i=0;i<listFriend.size();i++){
-            User userA = listFriend.get(i);
+        for(int i=0;i<listUserDisplay.size();i++){
+            User userA = listUserDisplay.get(i);
             data[i][0] = userA.getFullName()+"";
             data[i][1] = userA.getEmail() + "";
             data[i][2] = userA.getPhoneNo() +"" ;
@@ -94,9 +100,23 @@ public class FriendFrm extends javax.swing.JFrame {
             }
             else data[i][3] = "Offline";
         }
+        this.listUser = listUserDisplay;
         DefaultTableModel dtm = new DefaultTableModel(data, columnNames);
         tblFriend.setModel(dtm);
     }
+    
+    public void showMessage(String message){
+        JOptionPane.showMessageDialog(this, message);
+    }
+    
+    public ArrayList<Friend> getListFriend() {
+        return listFriend;
+    }
+
+    public void setListFriend(ArrayList<Friend> listFriend) {
+        this.listFriend = listFriend;
+    }
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -121,7 +141,7 @@ public class FriendFrm extends javax.swing.JFrame {
         jtfPhone = new javax.swing.JTextField();
         btnChat = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnAddFriend = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -154,21 +174,27 @@ public class FriendFrm extends javax.swing.JFrame {
         btnBack.setText("Back");
 
         jtfName.setEditable(false);
+        jtfName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jtfName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfNameActionPerformed(evt);
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Full Name");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Email");
 
         jtfEmail.setEditable(false);
+        jtfEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Phone");
 
         jtfPhone.setEditable(false);
+        jtfPhone.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         btnChat.setText("Chat");
 
@@ -179,8 +205,8 @@ public class FriendFrm extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Add new friend");
+        btnAddFriend.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnAddFriend.setText("Add new friend");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,33 +223,48 @@ public class FriendFrm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jtfName)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtfPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                                     .addComponent(jtfEmail)
-                                    .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(btnChat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRemove, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 149, Short.MAX_VALUE))
+                                    .addComponent(jtfName)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnChat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRemove, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))
+                        .addGap(0, 92, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnFriendRequest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 34, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(82, 82, 82))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAddFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
@@ -235,23 +276,10 @@ public class FriendFrm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jtfPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(44, 44, 44)
+                        .addGap(45, 45, 45)
                         .addComponent(btnChat)
                         .addGap(53, 53, 53)
-                        .addComponent(btnRemove))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1)
-                                .addComponent(btnFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(btnRemove)))
                 .addContainerGap(116, Short.MAX_VALUE))
         );
 
@@ -275,11 +303,11 @@ public class FriendFrm extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddFriend;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnChat;
     private javax.swing.JButton btnFriendRequest;
     private javax.swing.JButton btnRemove;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

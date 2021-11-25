@@ -108,6 +108,8 @@ public class UserDAO extends DAO{
                 user.setId(rs.getInt("id"));
                 user.setUserName(rs.getString("userName"));
                 user.setFullName(rs.getString("fullName"));
+                user.setEmail(rs.getString("email"));
+                user.setPhoneNo(rs.getString("phoneno"));
 //                user.setOnlineStatus(rs.getInt("onlineStatus"));
                 
                 int userId = user.getId();

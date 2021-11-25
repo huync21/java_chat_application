@@ -17,9 +17,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import model.Friend;
+import views.friend.AddNewFriendDialog;
 import views.friend.FriendFrm;
+import views.friend.FriendRequestDialog;
 import views.groupChat.CreateNewGroupFrm;
 import views.groupChat.GroupChatRoomsFrm;
 
@@ -41,6 +44,7 @@ public class ClientProcess {
     private GroupChatFrm groupRoomFrame;
     private Thread currentThread;
     private JFrame currentFrame;
+    private JDialog currenDialog;
     private Friend friend;
 
     public ClientProcess(Socket socket) {
@@ -191,6 +195,11 @@ public class ClientProcess {
                                     ArrayList<User> listUsers = (ArrayList<User>) receivePackage.getData();
                                     searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listUsers);
                                 }
+                                if(currenDialog instanceof AddNewFriendDialog){
+                                    AddNewFriendDialog AddFrDia = (AddNewFriendDialog) currenDialog;
+                                    ArrayList<User> listUsers = (ArrayList<User>) receivePackage.getData();
+                                    AddFrDia.receiveAllUsersAndDisplay(listUsers);
+                                }
                                 break;
                             case DataPackage.GET_GROUP_CHAT_ROOMS: 
                                   if (currentFrame instanceof GroupChatRoomsFrm) {
@@ -207,6 +216,37 @@ public class ClientProcess {
                                     friendFrm.receiveListFriend(listFriend);
                                 }
                                 break;
+                            case DataPackage.DELETE_FRIEND:
+                                if(currentFrame instanceof FriendFrm){
+                                    FriendFrm friendFrm = (FriendFrm) currentFrame;
+                                    friendFrm.showMessage(receivePackage.getStatusMessage());
+                                }
+                                break;
+                            case DataPackage.ACCEPT_FRIEND:
+                                if(currenDialog instanceof FriendRequestDialog){
+                                    FriendRequestDialog frDia = (FriendRequestDialog) currenDialog;
+                                    frDia.showMessage(receivePackage.getStatusMessage());
+                                }
+                                break;
+                            case DataPackage.REFUSE_FRIEND:
+                                if(currenDialog instanceof FriendRequestDialog){
+                                    FriendRequestDialog frDia = (FriendRequestDialog) currenDialog;
+                                    frDia.showMessage(receivePackage.getStatusMessage());
+                                }
+                                break;
+                            case DataPackage.LIST_USER_ADD_FRIEND:  // danh sách user để gửi kết bạn
+                                if(currenDialog instanceof AddNewFriendDialog){
+                                    AddNewFriendDialog AddFrDia = (AddNewFriendDialog) currenDialog;
+                                    ArrayList<User> allUser = (ArrayList<User>) receivePackage.getData();
+                                    AddFrDia.receiveAllUsersAndDisplay(allUser);
+                                }
+                                break;    
+                            case DataPackage.SEND_REQUEST_FRIEND:
+                                if(currenDialog instanceof AddNewFriendDialog){
+                                    AddNewFriendDialog frDia = (AddNewFriendDialog) currenDialog;
+                                    frDia.showMessage(receivePackage.getStatusMessage());
+                                }
+                                break; 
                             default:
                                 break;
                         }
@@ -358,6 +398,14 @@ public class ClientProcess {
         this.currentFrame = currentFrame;
     }
 
+    public JDialog getCurrenDialog() {
+        return currenDialog;
+    }
+
+    public void setCurrenDialog(JDialog currenDialog) {
+        this.currenDialog = currenDialog;
+    }
+    
     public void closeEverything() {
 
         try {
@@ -412,7 +460,7 @@ public class ClientProcess {
     
     public void getListFriend(User user) { // Lấy tất cả thông tin friend và request friend của 1 user
         try {
-            oos.writeObject(new DataPackage(DataPackage.GeT_LIST_FRIEND, this.user));
+            oos.writeObject(new DataPackage(DataPackage.GeT_LIST_FRIEND, user));
             oos.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -421,10 +469,44 @@ public class ClientProcess {
     
     public void deleteFriend(Friend friend){
         try {
-            oos.writeObject(new DataPackage(DataPackage.GeT_LIST_FRIEND, this.friend));
+            oos.writeObject(new DataPackage(DataPackage.DELETE_FRIEND, friend));
             oos.flush();
         } catch (Exception e) {
              e.printStackTrace();
+        }
+    }
+    
+    public void acceptFriend(Friend friend){
+        try {
+            oos.writeObject(new DataPackage(DataPackage.ACCEPT_FRIEND, friend));
+            oos.flush();
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
+    }
+    
+    public void refuseFriend(Friend friend){
+        try {
+            oos.writeObject(new DataPackage(DataPackage.REFUSE_FRIEND, friend));
+            oos.flush();
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
+    }
+    public void getListUserAddFriend() {
+        try {
+            oos.writeObject(new DataPackage(DataPackage.LIST_USER_ADD_FRIEND, user.getId()));
+            oos.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void sendRequestFriend(Friend friend){
+        try {
+            oos.writeObject(new DataPackage(DataPackage.SEND_REQUEST_FRIEND, friend));
+            oos.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

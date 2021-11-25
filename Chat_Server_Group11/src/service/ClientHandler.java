@@ -241,10 +241,42 @@ public class ClientHandler implements Runnable {
                         Friend friend = (Friend) dataPackage.getData();
                         new FriendDAO().deleteFriend(friend);
                         responsePackage.setOperation(DataPackage.DELETE_FRIEND);
-                        responsePackage.setStatusMessage("OK");
+                        responsePackage.setStatusMessage("Xóa bạn bè thành công!");
                         oos.writeObject(responsePackage);
                         oos.flush();
                         break;
+                    case DataPackage.ACCEPT_FRIEND:
+                        Friend friend1 = (Friend) dataPackage.getData();
+                        if(new FriendDAO().acceptFriend(friend1)){
+                            responsePackage.setOperation(DataPackage.ACCEPT_FRIEND);
+                            responsePackage.setStatusMessage("Đã thêm bạn bè!");
+                            oos.writeObject(responsePackage);
+                            oos.flush();
+                        }
+                        else System.out.println("fail");
+                        break;
+                    case DataPackage.REFUSE_FRIEND:
+                        Friend friend2 = (Friend) dataPackage.getData();
+                        if(new FriendDAO().deleteFriend(friend2)){
+                            responsePackage.setOperation(DataPackage.REFUSE_FRIEND);
+                            responsePackage.setStatusMessage("Đã từ chối kết bạn!");
+                            oos.writeObject(responsePackage);
+                            oos.flush();
+                        }
+                        break;
+                    case DataPackage.LIST_USER_ADD_FRIEND:
+                        int thisUSerID = (Integer) dataPackage.getData();
+                        ArrayList<User> allUsers2 = new UserDAO().getAllUsers(thisUSerID);
+                        oos.writeObject(new DataPackage(DataPackage.LIST_USER_ADD_FRIEND, allUsers2));
+                        oos.flush();
+                        break;
+                    case DataPackage.SEND_REQUEST_FRIEND:
+                        Friend friend3 = (Friend) dataPackage.getData();
+                        new FriendDAO().sendRequestFriend(friend3);
+                        responsePackage.setOperation(DataPackage.SEND_REQUEST_FRIEND);
+                        responsePackage.setStatusMessage("Đã gửi yêu cầu kết bạn!");
+                        oos.writeObject(responsePackage);
+                        oos.flush();
                     default:
                         break;
 //

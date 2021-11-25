@@ -16,7 +16,7 @@ import model.User;
  * @author QUANG
  */
 public class FriendDAO extends DAO{
-    public void requestFriend(Friend friend){  // Gửi kết bạn
+    public void sendRequestFriend(Friend friend){  // Gửi kết bạn
         try {
             String sql = "Insert into tblfriend(UserID1,UserID2,friendStatus) values(?,?,0);";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -27,7 +27,7 @@ public class FriendDAO extends DAO{
         }
     }
     
-    public void acceptFriend(Friend friend){  // Đồng ý kết bạn
+    public boolean acceptFriend(Friend friend){  // Đồng ý kết bạn
         try {
             String sql = "update tblfriend set friendstatus = 1 where (UserID1 = ? and UserID2 = ?) or (UserID1 = ? and UserID2 = ?);";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -36,12 +36,14 @@ public class FriendDAO extends DAO{
             ps.setInt(3, friend.getUser2().getId());
             ps.setInt(4, friend.getUser1().getId());
             ps.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
     
-    public void deleteFriend(Friend friend){ // Xóa bạn bè
+    public boolean deleteFriend(Friend friend){ // Xóa bạn bè
         try {
             String sql = "delete from tblfriend where (UserID1 = ? and UserID2 = ?) or (UserID1 = ? and UserID2 = ?);";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -50,8 +52,10 @@ public class FriendDAO extends DAO{
             ps.setInt(3, friend.getUser2().getId());
             ps.setInt(4, friend.getUser1().getId());
             ps.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
     
