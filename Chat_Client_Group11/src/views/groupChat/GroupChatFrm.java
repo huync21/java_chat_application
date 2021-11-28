@@ -15,6 +15,7 @@ import service.ClientProcess;
 import views.SingleChatRoomsFrm;
 import java.awt.List;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class GroupChatFrm extends javax.swing.JFrame {
      */
     private ClientProcess clientProcess;
     String messagesOnTheScreen = "";
+    private User currentUser;
+    private Room currentRoom;
     public GroupChatFrm(ClientProcess clientProcess) {
         System.out.println("Ok");
         initComponents();
@@ -61,9 +64,9 @@ public class GroupChatFrm extends javax.swing.JFrame {
         
         labelTheRestUserName.setText(clientProcess.getRoom().getName());
         // Lấy ra user còn lại trong phòng
-        User currentUser = clientProcess.getUser();
+        currentUser = clientProcess.getUser();
         ArrayList<User> theRestUserInTheRoom = new ArrayList<>();
-        Room currentRoom = clientProcess.getRoom();
+         currentRoom = clientProcess.getRoom();
         ArrayList<UserInARoom> listUserInCurrentRoom = currentRoom.getListUserInARoom();
         
         for (UserInARoom u : listUserInCurrentRoom) {
@@ -179,6 +182,12 @@ public class GroupChatFrm extends javax.swing.JFrame {
 
         labelTheRestUserName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         labelTheRestUserName.setText("@Name Of The Room");
+
+        txtMessage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMessageKeyPressed(evt);
+            }
+        });
 
         btnSend.setText("Send");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
@@ -324,6 +333,35 @@ public class GroupChatFrm extends javax.swing.JFrame {
     private void tblUsersInRoomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsersInRoomMouseClicked
   
     }//GEN-LAST:event_tblUsersInRoomMouseClicked
+
+    private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String input = txtMessage.getText();
+
+            Message message = new Message();
+            message.setTextContent(input);
+            message.setTime(new Date());
+
+            // lấy ra id của user in a room của user
+            UserInARoom userInARoom = new UserInARoom();
+            for (UserInARoom u : currentRoom.getListUserInARoom()) {
+                if (currentUser.getId() == u.getUser().getId()) {
+                    userInARoom = u;
+                    break;
+                }
+            }
+            userInARoom.setUser(currentUser);
+            message.setUserInARoom(userInARoom);
+
+            // gửi đi 
+            this.clientProcess.sendMessage(message);
+
+            // xóa đi text đã nhập trong input và hiện trong screen chat
+            txtMessage.setText("");
+            clientProcess.getListMessagesInARoom().add(message);
+        }
+    }//GEN-LAST:event_txtMessageKeyPressed
 
    
 
