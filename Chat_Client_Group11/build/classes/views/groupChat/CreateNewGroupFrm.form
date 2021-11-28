@@ -76,8 +76,8 @@
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="99" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="120" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="99" max="-2" attributes="0"/>
@@ -91,7 +91,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ten phong:"/>
+        <Property name="text" type="java.lang.String" value="T&#xea;n ph&#xf2;ng:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelTheRestUserName">
@@ -99,13 +99,10 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Tao moi 1 phong chat:"/>
+        <Property name="text" type="java.lang.String" value="T&#x1ea1;o m&#x1edb;i ph&#xf2;ng chat nh&#xf3;m:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTenPhong">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Phan tich thiet ke"/>
-      </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -117,7 +114,7 @@
         <Component class="javax.swing.JTable" name="tblUsers">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="4" rowCount="0">
                 <Column editable="true" title="user Id" type="java.lang.Object"/>
                 <Column editable="true" title="user name" type="java.lang.Object"/>
                 <Column editable="true" title="full name" type="java.lang.Object"/>
@@ -169,7 +166,7 @@
         <Component class="javax.swing.JTable" name="tblAddedUsers">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="4" rowCount="0">
                 <Column editable="true" title="user Id" type="java.lang.Object"/>
                 <Column editable="true" title="user name" type="java.lang.Object"/>
                 <Column editable="true" title="full name" type="java.lang.Object"/>
@@ -209,12 +206,12 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="danh sach user"/>
+        <Property name="text" type="java.lang.String" value="Click th&#xea;m user:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="danh sach user da them:"/>
+        <Property name="text" type="java.lang.String" value="User &#x111;&#xe3; th&#xea;m:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">

@@ -71,19 +71,14 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Ten phong:");
+        jLabel1.setText("Tên phòng:");
 
         labelTheRestUserName.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        labelTheRestUserName.setText("Tao moi 1 phong chat:");
-
-        txtTenPhong.setText("Phan tich thiet ke");
+        labelTheRestUserName.setText("Tạo mới phòng chat nhóm:");
 
         tblUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "user Id", "user name", "full name", "online status"
@@ -107,10 +102,7 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
 
         tblAddedUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "user Id", "user name", "full name", "online status"
@@ -118,9 +110,9 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblAddedUsers);
 
-        jLabel2.setText("danh sach user");
+        jLabel2.setText("Click thêm user:");
 
-        jLabel3.setText("danh sach user da them:");
+        jLabel3.setText("User đã thêm:");
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -180,8 +172,8 @@ public class CreateNewGroupFrm extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)

@@ -24,7 +24,7 @@ public class ServerProcess {
     }
 
     public void startServer() {
-        System.out.println("Server started at localhost:"+serverSocket.getLocalPort());
+        System.out.println("Server started at port:"+serverSocket.getLocalPort());
         try {
             while (true) {
                 Socket socket = serverSocket.accept();

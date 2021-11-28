@@ -19,7 +19,7 @@ public class DAO {
         if(con == null){
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat_application","root","213006diepdo");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat_application","root","Dontbetoohumble1234!");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
