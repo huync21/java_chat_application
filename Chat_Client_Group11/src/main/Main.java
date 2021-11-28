@@ -17,8 +17,8 @@ import java.net.Socket;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-         Socket socket = new Socket("10.243.237.131", 1234);
-//        Socket socket = new Socket("localhost", 1234);
+//         Socket socket = new Socket("10.243.237.131", 1234);
+        Socket socket = new Socket("localhost", 1234);
         ClientProcess clientProcess = new ClientProcess(socket);
         SignInFrm signInFrm = new SignInFrm(clientProcess);
         signInFrm.setVisible(true);

@@ -19,10 +19,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import model.Friend;
 import views.friend.AddNewFriendDialog;
 import views.friend.FriendFrm;
 import views.friend.FriendRequestDialog;
+import views.groupChat.AddFriendToGroupChat;
 import views.groupChat.CreateNewGroupFrm;
 import views.groupChat.GroupChatRoomsFrm;
 
@@ -159,9 +161,14 @@ public class ClientProcess {
                                     searchUserForSingleChatFrm.receiveAllUsersAndDisplay(listAllUsers);
                                 }
                                 if(currentFrame instanceof CreateNewGroupFrm){
-                                     CreateNewGroupFrm createNewGroupFrm = (CreateNewGroupFrm) currentFrame;
+                                    CreateNewGroupFrm createNewGroupFrm = (CreateNewGroupFrm) currentFrame;
                                     ArrayList<User> listAllUsers = (ArrayList<User>) receivePackage.getData();
                                     createNewGroupFrm.receiveAllUsersAndDisplay(listAllUsers);
+                                }
+                                if(currentFrame instanceof AddFriendToGroupChat){
+                                    AddFriendToGroupChat addFriendToGroupChat = (AddFriendToGroupChat) currentFrame;
+                                    ArrayList<User> listAllUsers = (ArrayList<User>) receivePackage.getData();
+                                    addFriendToGroupChat.receiveAllUsersAndDisplay(listAllUsers);
                                 }
                                 break;
                             // xem phòng chat đơn giữa 2 người đã tồn tại chưa, nếu chưa thì tạo mới, nếu rồi thì lấy về thông tin room luôn
@@ -261,6 +268,18 @@ public class ClientProcess {
                                     frDia.showMessage(receivePackage.getStatusMessage());
                                 }
                                 break; 
+                            case DataPackage.ADD_USER_TO_GROUP_CHAT:
+                                if(currentFrame instanceof AddFriendToGroupChat){
+                                    AddFriendToGroupChat addFrindToGroupFrm = (AddFriendToGroupChat) currentFrame;
+                                    String response_st =  receivePackage.getStatusMessage();
+                                    if(response_st.equals("Ok")){
+                                        addFrindToGroupFrm.backFrGroupChat((Room) receivePackage.getData());
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(addFrindToGroupFrm, "Không thể thêm");
+                                    }
+                                }
+                                break;
                             default:
                                 break;
                         }
@@ -518,6 +537,15 @@ public class ClientProcess {
     public void sendRequestFriend(Friend friend){
         try {
             oos.writeObject(new DataPackage(DataPackage.SEND_REQUEST_FRIEND, friend));
+            oos.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void addUserToGroupChat(UserInARoom us){
+        try {
+            oos.writeObject(new DataPackage(DataPackage.ADD_USER_TO_GROUP_CHAT, us));
             oos.flush();
         } catch (Exception e) {
             e.printStackTrace();

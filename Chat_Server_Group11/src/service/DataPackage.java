@@ -34,6 +34,8 @@ public class DataPackage implements Serializable{
     public static final int REFUSE_FRIEND = 18;
     public static final int LIST_USER_ADD_FRIEND = 19;
     public static final int SEND_REQUEST_FRIEND = 20;
+    public static final int ADD_USER_TO_GROUP_CHAT = 21;
+    
     private int operation;
     private Object data;
     private String statusMessage;

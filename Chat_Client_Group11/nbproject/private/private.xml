@@ -3,23 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/SearchUserForSingleChatFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/SingleChatFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/service/DataPackage.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/main/Main.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/friend/FriendFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/groupChat/GroupChatFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/service/ClientProcess.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/utils/EmojiUtils.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/SignInFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/SignUpFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/groupChat/GroupChatRoomsFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/friend/AddNewFriendDialog.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/friend/FriendRequestDialog.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/groupChat/CreateNewGroupFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/model/Room.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/SingleChatRoomsFrm.java</file>
-            <file>file:/C:/Users/LENOVO/Desktop/nhom%2011%20lap%20trinh%20mang/java_chat_application/Chat_Client_Group11/src/views/ChatHomeFrm.java</file>
+            <file>file:/D:/PTIT/Fourth%20Year/First%20Semester/Network%20Programming/BTL/java_chat_application/Chat_Client_Group11/src/views/groupChat/GroupChatFrm.java</file>
+            <file>file:/D:/PTIT/Fourth%20Year/First%20Semester/Network%20Programming/BTL/java_chat_application/Chat_Client_Group11/src/model/Room.java</file>
+            <file>file:/D:/PTIT/Fourth%20Year/First%20Semester/Network%20Programming/BTL/java_chat_application/Chat_Client_Group11/src/service/DataPackage.java</file>
+            <file>file:/D:/PTIT/Fourth%20Year/First%20Semester/Network%20Programming/BTL/java_chat_application/Chat_Client_Group11/src/service/ClientProcess.java</file>
+            <file>file:/D:/PTIT/Fourth%20Year/First%20Semester/Network%20Programming/BTL/java_chat_application/Chat_Client_Group11/src/views/groupChat/CreateNewGroupFrm.java</file>
+            <file>file:/D:/PTIT/Fourth%20Year/First%20Semester/Network%20Programming/BTL/java_chat_application/Chat_Client_Group11/src/views/groupChat/GroupChatRoomsFrm.java</file>
+            <file>file:/D:/PTIT/Fourth%20Year/First%20Semester/Network%20Programming/BTL/java_chat_application/Chat_Client_Group11/src/views/groupChat/AddFriendToGroupChat.java</file>
         </group>
     </open-files>
 </project-private>

@@ -277,6 +277,16 @@ public class ClientHandler implements Runnable {
                         responsePackage.setStatusMessage("Đã gửi yêu cầu kết bạn!");
                         oos.writeObject(responsePackage);
                         oos.flush();
+                        break;
+                    case DataPackage.ADD_USER_TO_GROUP_CHAT:
+                        UserInARoom us = (UserInARoom) dataPackage.getData();
+                        if(new UserDAO().insertUserToGroupChat(us)){
+                            responsePackage.setOperation(DataPackage.ADD_USER_TO_GROUP_CHAT);
+                            responsePackage.setData(new UserDAO().getRoomChatById(us.getId()));
+                            responsePackage.setStatusMessage("Ok");
+                            oos.writeObject(responsePackage);
+                            oos.flush();
+                        }
                     default:
                         break;
 //

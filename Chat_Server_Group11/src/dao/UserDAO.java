@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import model.Room;
+import model.UserInARoom;
 import service.ClientHandler;
 import service.ServerProcess;
 
@@ -195,4 +198,46 @@ public class UserDAO extends DAO{
         }
         return result;
     }
+    
+    public Room getRoomChatById(int roomId){
+        Room room = new Room();
+        try {
+        String sql = "SELECT id, tblUserId  FROM chat_application.tbluserinaroom where tblRoomId = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, roomId);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<UserInARoom> listUserInARoomK = new ArrayList<>();
+        while(rs.next()){
+            UserInARoom userInARoom = new UserInARoom();
+            userInARoom.setId(rs.getInt("id"));
+            userInARoom.setUser(getUserByID(rs.getInt("tblUserId")));
+            listUserInARoomK.add(userInARoom);
+        }
+            System.out.println(listUserInARoomK.size());
+            System.out.println(roomId);
+        room.setId(roomId);
+        room.setListUserInARoom(listUserInARoomK);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+       
+        return room;
+    }
+    
+    public boolean insertUserToGroupChat(UserInARoom us){
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO tbluserinaroom(tblUserId,tblRoomId) VALUES(?,?)",Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1,us.getUser().getId());
+            ps.setInt(2, us.getId());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
+    
+
 }
